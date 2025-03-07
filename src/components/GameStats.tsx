@@ -17,7 +17,7 @@ const GameStats: React.FC = () => {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Calculate goal percentage - changed to 10,000 bunnies instead of 10
+  // Calculate goal percentage - 10,000 bunnies to win
   const calculateGoalPercentage = () => {
     return Math.min(100, (gameState.bunnies / 10000) * 100);
   };
@@ -35,6 +35,15 @@ const GameStats: React.FC = () => {
         <div className="flex justify-between items-center">
           <span className="text-gray-600">Bunnies</span>
           <span className="font-medium text-gray-800">{formatNumber(gameState.bunnies)}</span>
+        </div>
+        
+        <div className="flex justify-between items-center">
+          <span className="text-gray-600">Bunny types</span>
+          <span className="font-medium text-gray-800">
+            B: {formatNumber(gameState.bunnyTypes.low)}, 
+            Q: {formatNumber(gameState.bunnyTypes.mid)}, 
+            P: {formatNumber(gameState.bunnyTypes.high)}
+          </span>
         </div>
         
         <div className="flex justify-between items-center">
