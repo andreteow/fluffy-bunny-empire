@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
@@ -29,64 +28,62 @@ const BunnyUpgrades: React.FC = () => {
   const handleBuyUpgrade = (upgrade: Upgrade) => {
     // Create effect function based on the upgrade's category and effect
     const safeEffectFn = () => {
-      return () => {
-        // Apply effects based on upgrade category
-        if (upgrade.category === 'efficiency') {
-          if (upgrade.id === 'bunny-enthusiasm') gameState.feedsPerClick += 1;
-          if (upgrade.id === 'bunny-training') gameState.feedsPerClick += 2;
-          if (upgrade.id === 'mega-carrots') gameState.feedsPerClick += 5;
-          if (upgrade.id === 'golden-carrots') gameState.feedsPerClick += 10;
-          if (upgrade.id === 'hyperspeed-nibbling') gameState.feedsPerClick += 20;
-        } 
-        else if (upgrade.category === 'automation') {
-          if (upgrade.id === 'carrot-farming') gameState.autoFeedRate += 1;
-          if (upgrade.id === 'smart-bunnies') gameState.autoFeedRate += 2;
-          if (upgrade.id === 'bunny-cooperation') gameState.autoFeedRate += 5;
-          if (upgrade.id === 'robo-feeders') gameState.autoFeedRate += 10;
-          if (upgrade.id === 'carrot-factory') gameState.autoFeedRate += 25;
-          if (upgrade.id === 'bunny-ai') gameState.autoFeedRate += 50;
-          if (upgrade.id === 'self-sustaining-bunnies') gameState.autoFeedRate += 100;
+      // Apply effects based on upgrade category
+      if (upgrade.category === 'efficiency') {
+        if (upgrade.id === 'bunny-enthusiasm') gameState.feedsPerClick += 1;
+        if (upgrade.id === 'bunny-training') gameState.feedsPerClick += 2;
+        if (upgrade.id === 'mega-carrots') gameState.feedsPerClick += 5;
+        if (upgrade.id === 'golden-carrots') gameState.feedsPerClick += 10;
+        if (upgrade.id === 'hyperspeed-nibbling') gameState.feedsPerClick += 20;
+      } 
+      else if (upgrade.category === 'automation') {
+        if (upgrade.id === 'carrot-farming') gameState.autoFeedRate += 1;
+        if (upgrade.id === 'smart-bunnies') gameState.autoFeedRate += 2;
+        if (upgrade.id === 'bunny-cooperation') gameState.autoFeedRate += 5;
+        if (upgrade.id === 'robo-feeders') gameState.autoFeedRate += 10;
+        if (upgrade.id === 'carrot-factory') gameState.autoFeedRate += 25;
+        if (upgrade.id === 'bunny-ai') gameState.autoFeedRate += 50;
+        if (upgrade.id === 'self-sustaining-bunnies') gameState.autoFeedRate += 100;
+      }
+      else if (upgrade.category === 'market') {
+        if (upgrade.id === 'cuteness-training') {
+          // +10% to all rabbit sale prices
+          gameState.rarityValueMultiplier *= 1.1;
         }
-        else if (upgrade.category === 'market') {
-          if (upgrade.id === 'cuteness-training') {
-            // +10% to all rabbit sale prices
-            gameState.rarityValueMultiplier *= 1.1;
-          }
-          if (upgrade.id === 'viral-bunny-videos') {
-            // Market demand increase lasts twice as long
-            gameState.marketDemandDuration = 60;
-          }
-          if (upgrade.id === 'luxury-pet-shops') {
-            // High-value rabbits appear 15% of the time
-            gameState.highValueChance = 0.15;
-          }
-          if (upgrade.id === 'global-bunny-craze') {
-            // High demand occurs 20% of the time
-            gameState.highDemandChance = 0.2;
-          }
-          if (upgrade.id === 'rabbit-reality-show') {
-            // Mid and high-value rabbits get a 1.5x price multiplier
-            gameState.rarityValueMultiplier *= 1.5;
-          }
+        if (upgrade.id === 'viral-bunny-videos') {
+          // Market demand increase lasts twice as long
+          gameState.marketDemandDuration = 60;
         }
-        else if (upgrade.category === 'rarity') {
-          if (upgrade.id === 'selective-breeding') {
-            // Mid-value rabbits now appear 40% of the time
-            gameState.midValueChance = 0.4;
-          }
-          if (upgrade.id === 'designer-rabbits') {
-            // High-value rabbits now appear 20% of the time
-            gameState.highValueChance = 0.2;
-          }
-          if (upgrade.id === 'cybernetic-bunnies') {
-            // High-value rabbits always sell at 2x price
-            gameState.highValueMultiplier = 2;
-          }
+        if (upgrade.id === 'luxury-pet-shops') {
+          // High-value rabbits appear 15% of the time
+          gameState.highValueChance = 0.15;
         }
-      };
+        if (upgrade.id === 'global-bunny-craze') {
+          // High demand occurs 20% of the time
+          gameState.highDemandChance = 0.2;
+        }
+        if (upgrade.id === 'rabbit-reality-show') {
+          // Mid and high-value rabbits get a 1.5x price multiplier
+          gameState.rarityValueMultiplier *= 1.5;
+        }
+      }
+      else if (upgrade.category === 'rarity') {
+        if (upgrade.id === 'selective-breeding') {
+          // Mid-value rabbits now appear 40% of the time
+          gameState.midValueChance = 0.4;
+        }
+        if (upgrade.id === 'designer-rabbits') {
+          // High-value rabbits now appear 20% of the time
+          gameState.highValueChance = 0.2;
+        }
+        if (upgrade.id === 'cybernetic-bunnies') {
+          // High-value rabbits always sell at 2x price
+          gameState.highValueMultiplier = 2;
+        }
+      }
     };
     
-    buyUpgrade(upgrade.cost, safeEffectFn(), upgrade.id);
+    buyUpgrade(upgrade.cost, safeEffectFn);
   };
 
   // Helper function to render upgrade buttons
