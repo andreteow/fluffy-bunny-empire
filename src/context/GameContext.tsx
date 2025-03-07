@@ -1,13 +1,12 @@
-
 import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
 import { useToast } from "@/components/ui/use-toast";
 import { GameState, GameContextType, initialGameState, LeaderboardEntry } from './types';
 import { formatNumber, getProgressPercentage, marketPriceMultiplier, bunnyValue as calculateBunnyValue } from './gameUtils';
 import { feedBunny as feedBunnyAction, sellBunnies as sellBunniesAction, buyUpgrade as buyUpgradeAction, resetGame as resetGameAction } from './gameActions';
 import { useMarketDemandCycle, useAutoFeed } from './gameEffects';
+import { supabase } from "@/integrations/supabase/client";
 
 const STORAGE_KEY = 'bunnyClickerGameState';
-const LEADERBOARD_KEY = 'bunnyClickerLeaderboard';
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
@@ -25,22 +24,50 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     return initialGameState;
   };
 
-  // Load saved leaderboard or use empty array
-  const loadLeaderboard = (): LeaderboardEntry[] => {
-    try {
-      const savedLeaderboard = localStorage.getItem(LEADERBOARD_KEY);
-      if (savedLeaderboard) {
-        return JSON.parse(savedLeaderboard);
-      }
-    } catch (error) {
-      console.error('Error loading leaderboard:', error);
-    }
-    return [];
-  };
-
   const [gameState, setGameState] = useState<GameState>(loadSavedState());
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(loadLeaderboard());
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [isLeaderboardLoading, setIsLeaderboardLoading] = useState(true);
   const { toast } = useToast();
+
+  // Load leaderboard from Supabase
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        setIsLeaderboardLoading(true);
+        const { data, error } = await supabase
+          .from('leaderboard')
+          .select('*')
+          .order('time', { ascending: true });
+        
+        if (error) {
+          throw error;
+        }
+        
+        if (data) {
+          // Transform to match our LeaderboardEntry interface
+          const leaderboardEntries: LeaderboardEntry[] = data.map(entry => ({
+            id: entry.id,
+            name: entry.name,
+            time: entry.time,
+            timestamp: new Date(entry.timestamp).getTime()
+          }));
+          
+          setLeaderboard(leaderboardEntries);
+        }
+      } catch (error) {
+        console.error('Error loading leaderboard:', error);
+        toast({
+          title: "Error loading leaderboard",
+          description: "There was an error loading the leaderboard data.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLeaderboardLoading(false);
+      }
+    };
+
+    fetchLeaderboard();
+  }, [toast]);
 
   // Update elapsed time
   useEffect(() => {
@@ -62,15 +89,6 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
       console.error('Error saving game state:', error);
     }
   }, [gameState]);
-
-  // Save leaderboard whenever it changes
-  useEffect(() => {
-    try {
-      localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(leaderboard));
-    } catch (error) {
-      console.error('Error saving leaderboard:', error);
-    }
-  }, [leaderboard]);
 
   const getProgressPercentageCallback = useCallback(() => {
     return getProgressPercentage(gameState.food, gameState.feedingsForNextMultiplication);
@@ -98,24 +116,42 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
   const resetGame = useCallback(() => {
     resetGameAction(initialGameState, setGameState, toast);
-    // Also clear localStorage when resetting
     localStorage.removeItem(STORAGE_KEY);
   }, [toast]);
 
-  // Add leaderboard entry
-  const addLeaderboardEntry = useCallback((name: string, time: number) => {
-    const newEntry: LeaderboardEntry = {
-      name,
-      time,
-      timestamp: Date.now()
-    };
-    
-    setLeaderboard(prev => [...prev, newEntry]);
-    
-    toast({
-      title: "Added to Leaderboard",
-      description: `Congratulations ${name}! Your time: ${formatTime(time)}`,
-    });
+  // Add leaderboard entry to Supabase
+  const addLeaderboardEntry = useCallback(async (name: string, time: number) => {
+    try {
+      const { error } = await supabase
+        .from('leaderboard')
+        .insert([
+          { name, time }
+        ]);
+      
+      if (error) {
+        throw error;
+      }
+      
+      const newEntry: LeaderboardEntry = {
+        name,
+        time,
+        timestamp: Date.now()
+      };
+      
+      setLeaderboard(prev => [...prev, newEntry].sort((a, b) => a.time - b.time));
+      
+      toast({
+        title: "Added to Leaderboard",
+        description: `Congratulations ${name}! Your time: ${formatTime(time)}`,
+      });
+    } catch (error) {
+      console.error('Error adding leaderboard entry:', error);
+      toast({
+        title: "Error",
+        description: "There was an error adding your score to the leaderboard.",
+        variant: "destructive",
+      });
+    }
   }, [toast]);
 
   // Format time for toast messages
@@ -144,6 +180,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
         bunnyValue,
         resetGame,
         addLeaderboardEntry,
+        isLeaderboardLoading,
       }}
     >
       {children}

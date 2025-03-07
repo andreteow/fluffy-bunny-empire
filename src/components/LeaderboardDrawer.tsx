@@ -2,14 +2,14 @@
 import React, { useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { Trophy, Calendar, Clock, List } from 'lucide-react';
+import { Trophy, Calendar, Clock, List, Loader2 } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
 
 const LeaderboardDrawer: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const { leaderboard } = useGame();
+  const { leaderboard, isLeaderboardLoading } = useGame();
 
   // Format time as HH:MM:SS
   const formatTime = (seconds: number): string => {
@@ -55,36 +55,45 @@ const LeaderboardDrawer: React.FC = () => {
             </SheetTitle>
           </SheetHeader>
           
-          <Tabs defaultValue="all-time" className="flex-1 flex flex-col">
-            <div className="px-4">
-              <TabsList className="w-full grid grid-cols-2 mb-4">
-                <TabsTrigger value="all-time" className="text-sm">
-                  <List className="h-4 w-4 mr-2" />
-                  All Time
-                </TabsTrigger>
-                <TabsTrigger value="daily" className="text-sm">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Today
-                </TabsTrigger>
-              </TabsList>
+          {isLeaderboardLoading ? (
+            <div className="flex-1 flex items-center justify-center">
+              <div className="flex flex-col items-center gap-2">
+                <Loader2 className="h-8 w-8 text-gray-400 animate-spin" />
+                <p className="text-sm text-gray-500">Loading leaderboard...</p>
+              </div>
             </div>
-            
-            <TabsContent value="all-time" className="px-4 flex-1 overflow-y-auto">
-              {sortedAllTimeEntries.length > 0 ? (
-                <LeaderboardTable entries={sortedAllTimeEntries} formatTime={formatTime} />
-              ) : (
-                <EmptyState message="No entries yet. Be the first to win!" />
-              )}
-            </TabsContent>
-            
-            <TabsContent value="daily" className="px-4 flex-1 overflow-y-auto">
-              {sortedDailyEntries.length > 0 ? (
-                <LeaderboardTable entries={sortedDailyEntries} formatTime={formatTime} />
-              ) : (
-                <EmptyState message="No entries today. Be the first to win today!" />
-              )}
-            </TabsContent>
-          </Tabs>
+          ) : (
+            <Tabs defaultValue="all-time" className="flex-1 flex flex-col">
+              <div className="px-4">
+                <TabsList className="w-full grid grid-cols-2 mb-4">
+                  <TabsTrigger value="all-time" className="text-sm">
+                    <List className="h-4 w-4 mr-2" />
+                    All Time
+                  </TabsTrigger>
+                  <TabsTrigger value="daily" className="text-sm">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Today
+                  </TabsTrigger>
+                </TabsList>
+              </div>
+              
+              <TabsContent value="all-time" className="px-4 flex-1 overflow-y-auto">
+                {sortedAllTimeEntries.length > 0 ? (
+                  <LeaderboardTable entries={sortedAllTimeEntries} formatTime={formatTime} />
+                ) : (
+                  <EmptyState message="No entries yet. Be the first to win!" />
+                )}
+              </TabsContent>
+              
+              <TabsContent value="daily" className="px-4 flex-1 overflow-y-auto">
+                {sortedDailyEntries.length > 0 ? (
+                  <LeaderboardTable entries={sortedDailyEntries} formatTime={formatTime} />
+                ) : (
+                  <EmptyState message="No entries today. Be the first to win today!" />
+                )}
+              </TabsContent>
+            </Tabs>
+          )}
         </div>
       </SheetContent>
     </Sheet>
@@ -100,7 +109,7 @@ const LeaderboardTable: React.FC<{
     <div className="space-y-2">
       {entries.map((entry, index) => (
         <div 
-          key={`${entry.name}-${entry.timestamp}`} 
+          key={entry.id || `${entry.name}-${entry.timestamp}`} 
           className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100"
         >
           <div className="flex items-center gap-3">

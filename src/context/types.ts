@@ -21,6 +21,7 @@ export interface GameState {
 }
 
 export interface LeaderboardEntry {
+  id?: string;
   name: string;
   time: number;
   timestamp: number;
@@ -38,6 +39,7 @@ export interface GameContextType {
   bunnyValue: (tier: 'low' | 'mid' | 'high') => number;
   resetGame: () => void;
   addLeaderboardEntry: (name: string, time: number) => void;
+  isLeaderboardLoading: boolean;
 }
 
 export const initialGameState: GameState = {

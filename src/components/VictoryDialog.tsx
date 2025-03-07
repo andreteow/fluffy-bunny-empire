@@ -36,22 +36,30 @@ const VictoryDialog: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [playerName, setPlayerName] = useState('');
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    // Check for victory condition - 10 bunnies (changed from 100)
+    // Check for victory condition - 10 bunnies
     if (gameState.bunnies >= 10 && !hasSubmitted) {
       setOpen(true);
     }
   }, [gameState.bunnies, hasSubmitted]);
 
-  const handleNameSubmit = () => {
+  const handleNameSubmit = async () => {
     // Don't allow empty names
     if (!playerName.trim()) return;
     
-    // Add to leaderboard
-    addLeaderboardEntry(playerName, gameState.elapsedTime);
-    setHasSubmitted(true);
-    setOpen(false);
+    try {
+      setIsSubmitting(true);
+      // Add to leaderboard
+      await addLeaderboardEntry(playerName, gameState.elapsedTime);
+      setHasSubmitted(true);
+      setOpen(false);
+    } catch (error) {
+      console.error('Error submitting score:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleContinuePlaying = () => {
@@ -100,16 +108,26 @@ const VictoryDialog: React.FC = () => {
               <Button 
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white" 
                 onClick={handleNameSubmit}
-                disabled={!playerName.trim()}
+                disabled={!playerName.trim() || isSubmitting}
               >
-                <Trophy className="mr-2 h-4 w-4" />
-                Add to Leaderboard
+                {isSubmitting ? (
+                  <>
+                    <span className="loader mr-2"></span>
+                    Adding...
+                  </>
+                ) : (
+                  <>
+                    <Trophy className="mr-2 h-4 w-4" />
+                    Add to Leaderboard
+                  </>
+                )}
               </Button>
               
               <Button 
                 className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700" 
                 variant="outline"
                 onClick={handleContinuePlaying}
+                disabled={isSubmitting}
               >
                 Continue Playing
               </Button>
