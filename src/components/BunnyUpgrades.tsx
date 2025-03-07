@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
@@ -13,6 +14,8 @@ interface Upgrade {
   icon: React.ReactNode;
   isAvailable: (gameState: any) => boolean;
   effect: () => void;
+  requiredBunnies: number;
+  requiredAutoFeedRate?: number;
 }
 
 const BunnyUpgrades: React.FC = () => {
@@ -29,7 +32,8 @@ const BunnyUpgrades: React.FC = () => {
       effect: () => {
         // Increase auto feed rate
         gameState.autoFeedRate += 1;
-      }
+      },
+      requiredBunnies: 10
     },
     {
       id: 'smart-bunnies',
@@ -41,7 +45,9 @@ const BunnyUpgrades: React.FC = () => {
       effect: () => {
         // Increase auto feed rate
         gameState.autoFeedRate += 2;
-      }
+      },
+      requiredBunnies: 50,
+      requiredAutoFeedRate: 1
     },
     {
       id: 'robo-feeders',
@@ -53,22 +59,37 @@ const BunnyUpgrades: React.FC = () => {
       effect: () => {
         // Increase auto feed rate
         gameState.autoFeedRate += 5;
-      }
+      },
+      requiredBunnies: 200,
+      requiredAutoFeedRate: 3
     }
   ];
 
-  const availableUpgrades = upgrades.filter(upgrade => upgrade.isAvailable(gameState));
+  // Get available upgrades based on bunny count
+  const availableUpgrades = upgrades.filter(upgrade => {
+    return gameState.bunnies >= upgrade.requiredBunnies && 
+           (upgrade.requiredAutoFeedRate === undefined || 
+            gameState.autoFeedRate >= upgrade.requiredAutoFeedRate);
+  });
+
+  // Get the next upgrade that's not yet available but could be soon
+  const nextUpgrade = upgrades.find(upgrade => {
+    return !availableUpgrades.includes(upgrade) && 
+           (gameState.bunnies >= upgrade.requiredBunnies || 
+            upgrade.requiredBunnies - gameState.bunnies <= 100);
+  });
 
   return (
     <Card className="p-4 bg-bunny-green bg-opacity-40 border-2 border-bunny-green rounded-xl">
       <h3 className="text-xl font-bold mb-4">Upgrades</h3>
       
-      {availableUpgrades.length === 0 ? (
+      {availableUpgrades.length === 0 && !nextUpgrade ? (
         <p className="text-center text-muted-foreground py-4">
           Get more bunnies to unlock upgrades!
         </p>
       ) : (
         <div className="space-y-3">
+          {/* Show available upgrades */}
           {availableUpgrades.map((upgrade) => (
             <TooltipProvider key={upgrade.id}>
               <Tooltip>
@@ -92,6 +113,41 @@ const BunnyUpgrades: React.FC = () => {
               </Tooltip>
             </TooltipProvider>
           ))}
+          
+          {/* Show next upgrade (greyed out) */}
+          {nextUpgrade && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="w-full flex justify-between items-center px-4 py-3 border-bunny opacity-50"
+                    disabled={true}
+                  >
+                    <div className="flex items-center gap-2">
+                      {nextUpgrade.icon}
+                      <span>{nextUpgrade.name}</span>
+                    </div>
+                    <span className="text-sm font-semibold">${formatNumber(nextUpgrade.cost)}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{nextUpgrade.description}</p>
+                  {nextUpgrade.requiredBunnies > gameState.bunnies && (
+                    <p className="text-red-500 mt-1">
+                      Requires {formatNumber(nextUpgrade.requiredBunnies)} bunnies
+                    </p>
+                  )}
+                  {nextUpgrade.requiredAutoFeedRate !== undefined && 
+                   gameState.autoFeedRate < nextUpgrade.requiredAutoFeedRate && (
+                    <p className="text-red-500 mt-1">
+                      Requires auto-feed rate of {nextUpgrade.requiredAutoFeedRate}/sec
+                    </p>
+                  )}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
         </div>
       )}
       

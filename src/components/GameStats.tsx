@@ -1,10 +1,46 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
+import { Clock, Activity } from 'lucide-react';
 
 const GameStats: React.FC = () => {
   const { gameState, formatNumber } = useGame();
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [cps, setCps] = useState(0);
+  const [previousFeedings, setPreviousFeedings] = useState(gameState.totalFeedings);
+  
+  // Update elapsed time
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setElapsedTime(prev => prev + 1);
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, []);
+  
+  // Calculate CPS (clicks per second)
+  useEffect(() => {
+    // Calculate CPS based on total feedings change
+    const feedingsDelta = gameState.totalFeedings - previousFeedings;
+    setCps(feedingsDelta);
+    
+    // Update previous feedings
+    const interval = setInterval(() => {
+      setPreviousFeedings(gameState.totalFeedings);
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, [gameState.totalFeedings, previousFeedings]);
+  
+  // Format time as HH:MM:SS
+  const formatTime = (seconds: number): string => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   return (
     <Card className="p-4 bg-bunny-yellow bg-opacity-40 border-2 border-bunny-yellow rounded-xl">
@@ -34,6 +70,20 @@ const GameStats: React.FC = () => {
         <div className="flex justify-between">
           <span>Auto-feed rate:</span>
           <span className="font-semibold">{gameState.autoFeedRate}/sec</span>
+        </div>
+        
+        <div className="flex justify-between items-center">
+          <span className="flex items-center gap-1">
+            <Clock className="h-4 w-4" /> Elapsed time:
+          </span>
+          <span className="font-semibold">{formatTime(elapsedTime)}</span>
+        </div>
+        
+        <div className="flex justify-between items-center">
+          <span className="flex items-center gap-1">
+            <Activity className="h-4 w-4" /> Current CPS:
+          </span>
+          <span className="font-semibold">{cps}/sec</span>
         </div>
       </div>
       
