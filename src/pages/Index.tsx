@@ -12,13 +12,13 @@ const Index = () => {
   return (
     <GameProvider>
       <div className="min-h-screen bg-bunny-light p-4 md:p-8">
-        <header className="text-center mb-8 pt-14 md:pt-0 relative">
-          <div className="absolute right-2 top-2 md:top-2 flex gap-2 z-10">
+        <header className="text-center mb-8 pt-14 md:pt-6 relative">
+          <div className="absolute right-2 top-2 md:top-2 flex gap-2 z-20">
             <AboutPopup />
             <ResetButton />
           </div>
           
-          <h1 className="text-4xl font-bold text-bunny animate-pulse-soft">
+          <h1 className="text-4xl font-bold text-bunny animate-pulse-soft z-10 relative">
             🐰 Bunny Clicker Game 🐰
           </h1>
           <p className="text-gray-600 mt-2">

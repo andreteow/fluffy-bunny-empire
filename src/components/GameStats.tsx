@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
 import { Clock, Activity } from 'lucide-react';
@@ -7,8 +8,8 @@ const GameStats: React.FC = () => {
   const { gameState, formatNumber } = useGame();
   const [elapsedTime, setElapsedTime] = useState(0);
   const [cps, setCps] = useState(0);
-  const [previousFeedings, setPreviousFeedings] = useState(0);
-  const [timeWindow, setTimeWindow] = useState<number[]>([]);
+  const prevFeedingsRef = useRef(gameState.totalFeedings);
+  const feedingHistoryRef = useRef<{time: number, feedings: number}[]>([]);
   
   // Update elapsed time
   useEffect(() => {
@@ -21,32 +22,38 @@ const GameStats: React.FC = () => {
   
   // Calculate CPS (clicks per second) using a 5-second rolling window
   useEffect(() => {
-    // Track feeding delta in the last 5 seconds
-    setTimeWindow(prev => {
+    // Only update when feedings change
+    if (gameState.totalFeedings !== prevFeedingsRef.current) {
       const now = Date.now();
-      const newWindow = [...prev, gameState.totalFeedings];
       
-      // Keep only entries from the last 5 seconds
-      if (newWindow.length > 5) {
-        newWindow.shift();
+      // Add current data point
+      feedingHistoryRef.current.push({
+        time: now,
+        feedings: gameState.totalFeedings
+      });
+      
+      // Remove data points older than 5 seconds
+      const cutoffTime = now - 5000;
+      feedingHistoryRef.current = feedingHistoryRef.current.filter(
+        point => point.time >= cutoffTime
+      );
+      
+      // Calculate CPS if we have at least 2 data points
+      if (feedingHistoryRef.current.length >= 2) {
+        const oldest = feedingHistoryRef.current[0];
+        const newest = feedingHistoryRef.current[feedingHistoryRef.current.length - 1];
+        
+        const feedingsDelta = newest.feedings - oldest.feedings;
+        const timeDeltaSeconds = (newest.time - oldest.time) / 1000;
+        
+        if (timeDeltaSeconds > 0) {
+          setCps(Math.round(feedingsDelta / timeDeltaSeconds));
+        }
       }
       
-      return newWindow;
-    });
-    
-    // Calculate CPS based on the total change over the window
-    if (timeWindow.length >= 2) {
-      const feedingsDelta = gameState.totalFeedings - timeWindow[0];
-      const secondsDelta = Math.min(timeWindow.length - 1, 5);
-      setCps(Math.round(feedingsDelta / secondsDelta));
+      prevFeedingsRef.current = gameState.totalFeedings;
     }
-    
-    const interval = setInterval(() => {
-      setPreviousFeedings(gameState.totalFeedings);
-    }, 1000);
-    
-    return () => clearInterval(interval);
-  }, [gameState.totalFeedings, timeWindow]);
+  }, [gameState.totalFeedings]);
   
   // Format time as HH:MM:SS
   const formatTime = (seconds: number): string => {

@@ -83,6 +83,24 @@ const BunnyUpgrades: React.FC = () => {
             upgrade.requiredBunnies - gameState.bunnies <= 100);
   });
 
+  const handleBuyUpgrade = (cost: number, effectFn: () => void) => {
+    // Create a new function that doesn't directly mutate the state
+    const safeEffectFn = () => {
+      const newAutoFeedRate = gameState.autoFeedRate + (
+        effectFn.toString().includes('+ 1') ? 1 : 
+        effectFn.toString().includes('+ 2') ? 2 : 
+        effectFn.toString().includes('+ 5') ? 5 : 0
+      );
+      
+      return () => {
+        // This properly updates the state through the context
+        gameState.autoFeedRate = newAutoFeedRate;
+      };
+    };
+    
+    buyUpgrade(cost, safeEffectFn());
+  };
+
   return (
     <Card className="p-4 bg-bunny-green bg-opacity-40 border-2 border-bunny-green rounded-xl">
       <h3 className="text-xl font-bold mb-4">Upgrades</h3>
@@ -101,7 +119,7 @@ const BunnyUpgrades: React.FC = () => {
                   <Button
                     variant="outline"
                     className="w-full flex flex-col items-start justify-between px-4 py-3 border-bunny h-auto"
-                    onClick={() => buyUpgrade(upgrade.cost, upgrade.effectFn)}
+                    onClick={() => handleBuyUpgrade(upgrade.cost, upgrade.effectFn)}
                     disabled={gameState.money < upgrade.cost}
                   >
                     <div className="flex w-full justify-between">
@@ -111,7 +129,7 @@ const BunnyUpgrades: React.FC = () => {
                       </div>
                       <span className="text-sm font-semibold">${formatNumber(upgrade.cost)}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">{upgrade.effect}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{upgrade.description} {upgrade.effect}</p>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -138,7 +156,7 @@ const BunnyUpgrades: React.FC = () => {
                       </div>
                       <span className="text-sm font-semibold">${formatNumber(nextUpgrade.cost)}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">{nextUpgrade.effect}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{nextUpgrade.description} {nextUpgrade.effect}</p>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
