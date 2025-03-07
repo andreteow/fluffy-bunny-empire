@@ -1,9 +1,11 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { PartyPopper, Trophy } from 'lucide-react';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 // Enhanced confetti animation with Clay colors
 const Confetti: React.FC = () => {
@@ -30,56 +32,104 @@ const Confetti: React.FC = () => {
 };
 
 const VictoryDialog: React.FC = () => {
-  const { gameState } = useGame();
-  const [open, setOpen] = React.useState(false);
+  const { gameState, addLeaderboardEntry } = useGame();
+  const [open, setOpen] = useState(false);
+  const [playerName, setPlayerName] = useState('');
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   useEffect(() => {
-    // Check for victory condition - 100 bunnies
-    if (gameState.bunnies >= 100) {
+    // Check for victory condition - 10 bunnies (changed from 100)
+    if (gameState.bunnies >= 10 && !hasSubmitted) {
       setOpen(true);
-    } else {
-      setOpen(false);
     }
-  }, [gameState.bunnies]);
+  }, [gameState.bunnies, hasSubmitted]);
 
-  const handleNewGame = () => {
-    // Just close the dialog without resetting the game
+  const handleNameSubmit = () => {
+    // Don't allow empty names
+    if (!playerName.trim()) return;
+    
+    // Add to leaderboard
+    addLeaderboardEntry(playerName, gameState.elapsedTime);
+    setHasSubmitted(true);
+    setOpen(false);
+  };
+
+  const handleContinuePlaying = () => {
+    // Just close the dialog without adding to leaderboard
+    setHasSubmitted(true);
     setOpen(false);
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-md border-0 rounded-2xl shadow-lg bg-gradient-to-br from-white to-clay-pink-light">
+    <Dialog open={open} onOpenChange={(value) => {
+      // Only allow closing via buttons
+      if (!value) return;
+      setOpen(value);
+    }}>
+      <DialogContent className="sm:max-w-md border-0 rounded-2xl shadow-lg bg-white">
         <DialogHeader>
-          <DialogTitle className="text-3xl flex items-center justify-center gap-3">
-            <Trophy className="h-8 w-8 text-clay-yellow" />
+          <DialogTitle className="text-2xl flex items-center justify-center gap-3 text-gray-800">
+            <Trophy className="h-6 w-6 text-amber-500" />
             Congratulations!
-            <PartyPopper className="h-8 w-8 text-clay-yellow" />
+            <PartyPopper className="h-6 w-6 text-amber-500" />
           </DialogTitle>
-          <DialogDescription className="text-center text-lg font-medium text-clay">
-            You've reached 100 bunnies and taken over the world!
+          <DialogDescription className="text-center text-base font-medium text-gray-600">
+            You've reached 10 bunnies and won the game!
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col items-center p-8">
-          <div className="text-8xl mb-5 animate-pulse-soft">🐰🏆🐰</div>
-          <p className="text-center text-lg mb-8 text-clay">
-            Your bunny empire now rules supreme! What will you do next?
+        <div className="flex flex-col items-center p-6">
+          <div className="text-6xl mb-5">🐰🏆🐰</div>
+          <p className="text-center text-base mb-6 text-gray-600">
+            Your time: {formatTime(gameState.elapsedTime)}
           </p>
-          <Button 
-            className="w-full clay-btn bg-clay-green hover:bg-clay-green-dark text-white" 
-            size="lg" 
-            onClick={handleNewGame}
-          >
-            <PartyPopper className="mr-2 h-5 w-5" />
-            Continue Playing
-          </Button>
+          
+          <div className="w-full space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="playerName" className="text-gray-700">Your Name</Label>
+              <Input 
+                id="playerName" 
+                placeholder="Enter your name" 
+                value={playerName} 
+                onChange={(e) => setPlayerName(e.target.value)}
+                className="border-gray-200"
+              />
+            </div>
+            
+            <div className="flex flex-col gap-2">
+              <Button 
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white" 
+                onClick={handleNameSubmit}
+                disabled={!playerName.trim()}
+              >
+                <Trophy className="mr-2 h-4 w-4" />
+                Add to Leaderboard
+              </Button>
+              
+              <Button 
+                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700" 
+                variant="outline"
+                onClick={handleContinuePlaying}
+              >
+                Continue Playing
+              </Button>
+            </div>
+          </div>
         </div>
 
         {open && <Confetti />}
       </DialogContent>
     </Dialog>
   );
+};
+
+// Format time as HH:MM:SS
+const formatTime = (seconds: number): string => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+  
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
 export default VictoryDialog;

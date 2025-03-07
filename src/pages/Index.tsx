@@ -8,6 +8,7 @@ import GameStats from '@/components/GameStats';
 import AboutPopup from '@/components/AboutPopup';
 import ResetButton from '@/components/ResetButton';
 import VictoryDialog from '@/components/VictoryDialog';
+import LeaderboardDrawer from '@/components/LeaderboardDrawer';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { BarChart2 } from 'lucide-react';
 
@@ -66,6 +67,7 @@ const Index = () => {
         </footer>
 
         <VictoryDialog />
+        <LeaderboardDrawer />
       </div>
     </GameProvider>
   );

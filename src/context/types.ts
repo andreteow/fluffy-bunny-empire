@@ -20,8 +20,15 @@ export interface GameState {
   elapsedTime: number;
 }
 
+export interface LeaderboardEntry {
+  name: string;
+  time: number;
+  timestamp: number;
+}
+
 export interface GameContextType {
   gameState: GameState;
+  leaderboard: LeaderboardEntry[];
   feedBunny: () => void;
   sellBunnies: (amount: number) => void;
   buyUpgrade: (cost: number, effect: () => (gameState: GameState) => void, upgradeId?: string) => boolean;
@@ -30,6 +37,7 @@ export interface GameContextType {
   marketPriceMultiplier: () => number;
   bunnyValue: (tier: 'low' | 'mid' | 'high') => number;
   resetGame: () => void;
+  addLeaderboardEntry: (name: string, time: number) => void;
 }
 
 export const initialGameState: GameState = {
