@@ -13,7 +13,11 @@ export const automationUpgrades: Upgrade[] = [
     icon: <Carrot className="h-5 w-5" />,
     category: 'automation',
     isAvailable: (state) => state.bunnies >= 10 && !state.unlockedUpgrades.includes('carrot-farming'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.autoFeedRate += 1;
+      };
+    },
     requiredBunnies: 10,
   },
   {
@@ -25,7 +29,11 @@ export const automationUpgrades: Upgrade[] = [
     icon: <Brain className="h-5 w-5" />,
     category: 'automation',
     isAvailable: (state) => state.bunnies >= 50 && state.autoFeedRate >= 1 && state.unlockedUpgrades.includes('carrot-farming'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.autoFeedRate += 2;
+      };
+    },
     requiredBunnies: 50,
     requiredAutoFeedRate: 1,
     requiredUpgrade: 'carrot-farming',
@@ -39,7 +47,11 @@ export const automationUpgrades: Upgrade[] = [
     icon: <Rabbit className="h-5 w-5" />,
     category: 'automation',
     isAvailable: (state) => state.bunnies >= 100 && state.autoFeedRate >= 3 && state.unlockedUpgrades.includes('smart-bunnies'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.autoFeedRate += 5;
+      };
+    },
     requiredBunnies: 100,
     requiredAutoFeedRate: 3,
     requiredUpgrade: 'smart-bunnies',
@@ -53,7 +65,11 @@ export const automationUpgrades: Upgrade[] = [
     icon: <Bot className="h-5 w-5" />,
     category: 'automation',
     isAvailable: (state) => state.bunnies >= 200 && state.autoFeedRate >= 8 && state.unlockedUpgrades.includes('bunny-cooperation'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.autoFeedRate += 10;
+      };
+    },
     requiredBunnies: 200,
     requiredAutoFeedRate: 8,
     requiredUpgrade: 'bunny-cooperation',
@@ -67,7 +83,11 @@ export const automationUpgrades: Upgrade[] = [
     icon: <Carrot className="h-5 w-5" />,
     category: 'automation',
     isAvailable: (state) => state.bunnies >= 500 && state.autoFeedRate >= 18 && state.unlockedUpgrades.includes('robo-feeders'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.autoFeedRate += 25;
+      };
+    },
     requiredBunnies: 500,
     requiredAutoFeedRate: 18,
     requiredUpgrade: 'robo-feeders',
@@ -81,7 +101,11 @@ export const automationUpgrades: Upgrade[] = [
     icon: <Brain className="h-5 w-5" />,
     category: 'automation',
     isAvailable: (state) => state.bunnies >= 1000 && state.autoFeedRate >= 43 && state.unlockedUpgrades.includes('carrot-factory'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.autoFeedRate += 50;
+      };
+    },
     requiredBunnies: 1000,
     requiredAutoFeedRate: 43,
     requiredUpgrade: 'carrot-factory',
@@ -95,7 +119,11 @@ export const automationUpgrades: Upgrade[] = [
     icon: <Rabbit className="h-5 w-5" />,
     category: 'automation',
     isAvailable: (state) => state.bunnies >= 5000 && state.autoFeedRate >= 93 && state.unlockedUpgrades.includes('bunny-ai'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.autoFeedRate += 100;
+      };
+    },
     requiredBunnies: 5000,
     requiredAutoFeedRate: 93,
     requiredUpgrade: 'bunny-ai',

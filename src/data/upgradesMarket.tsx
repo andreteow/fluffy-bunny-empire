@@ -13,7 +13,11 @@ export const marketUpgrades: Upgrade[] = [
     icon: <Rabbit className="h-5 w-5" />,
     category: 'market',
     isAvailable: (state) => state.bunnies >= 100 && !state.unlockedUpgrades.includes('cuteness-training'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.rarityValueMultiplier = gameState.rarityValueMultiplier * 1.1;
+      };
+    },
     requiredBunnies: 100,
   },
   {
@@ -25,7 +29,11 @@ export const marketUpgrades: Upgrade[] = [
     icon: <Video className="h-5 w-5" />,
     category: 'market',
     isAvailable: (state) => state.bunnies >= 250 && state.unlockedUpgrades.includes('cuteness-training'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.marketDemandDuration = gameState.marketDemandDuration * 2;
+      };
+    },
     requiredBunnies: 250,
     requiredUpgrade: 'cuteness-training',
   },
@@ -38,7 +46,11 @@ export const marketUpgrades: Upgrade[] = [
     icon: <Gem className="h-5 w-5" />,
     category: 'market',
     isAvailable: (state) => state.bunnies >= 500 && state.unlockedUpgrades.includes('viral-bunny-videos'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.highValueChance = 0.15;
+      };
+    },
     requiredBunnies: 500,
     requiredUpgrade: 'viral-bunny-videos',
   },
@@ -51,7 +63,11 @@ export const marketUpgrades: Upgrade[] = [
     icon: <TrendingUp className="h-5 w-5" />,
     category: 'market',
     isAvailable: (state) => state.bunnies >= 1000 && state.unlockedUpgrades.includes('luxury-pet-shops'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.highDemandChance = 0.2;
+      };
+    },
     requiredBunnies: 1000,
     requiredUpgrade: 'luxury-pet-shops',
   },
@@ -64,7 +80,11 @@ export const marketUpgrades: Upgrade[] = [
     icon: <Video className="h-5 w-5" />,
     category: 'market',
     isAvailable: (state) => state.bunnies >= 5000 && state.unlockedUpgrades.includes('global-bunny-craze'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.rarityValueMultiplier = gameState.rarityValueMultiplier * 1.5;
+      };
+    },
     requiredBunnies: 5000,
     requiredUpgrade: 'global-bunny-craze',
   },

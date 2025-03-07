@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Upgrade } from '@/context/types';
-import { Zap } from 'lucide-react';
+import { Zap, Carrot, Gem, Rabbit } from 'lucide-react';
 
 export const efficiencyUpgrades: Upgrade[] = [
   {
@@ -13,7 +14,7 @@ export const efficiencyUpgrades: Upgrade[] = [
     category: 'efficiency',
     isAvailable: (state) => !state.unlockedUpgrades.includes('bunny-enthusiasm'),
     effectFn: function() {
-      return function(gameState: any) {
+      return function(gameState) {
         gameState.feedsPerClick += 1;
       };
     },
@@ -28,7 +29,7 @@ export const efficiencyUpgrades: Upgrade[] = [
     category: 'efficiency',
     isAvailable: (state) => state.unlockedUpgrades.includes('bunny-enthusiasm'),
     effectFn: function() {
-      return function(gameState: any) {
+      return function(gameState) {
         gameState.feedsPerClick += 2;
       };
     },
@@ -42,7 +43,11 @@ export const efficiencyUpgrades: Upgrade[] = [
     icon: <Carrot className="h-5 w-5" />,
     category: 'efficiency',
     isAvailable: (state) => state.bunnies >= 50 && state.unlockedUpgrades.includes('bunny-training'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.feedsPerClick += 5;
+      };
+    },
     requiredBunnies: 50,
     requiredUpgrade: 'bunny-training',
   },
@@ -55,7 +60,11 @@ export const efficiencyUpgrades: Upgrade[] = [
     icon: <Gem className="h-5 w-5" />,
     category: 'efficiency',
     isAvailable: (state) => state.bunnies >= 200 && state.unlockedUpgrades.includes('mega-carrots'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.feedsPerClick += 10;
+      };
+    },
     requiredBunnies: 200,
     requiredUpgrade: 'mega-carrots',
   },
@@ -68,7 +77,11 @@ export const efficiencyUpgrades: Upgrade[] = [
     icon: <Rabbit className="h-5 w-5" />,
     category: 'efficiency',
     isAvailable: (state) => state.bunnies >= 500 && state.unlockedUpgrades.includes('golden-carrots'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.feedsPerClick += 20;
+      };
+    },
     requiredBunnies: 500,
     requiredUpgrade: 'golden-carrots',
   },

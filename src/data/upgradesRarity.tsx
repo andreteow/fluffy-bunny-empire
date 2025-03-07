@@ -13,7 +13,11 @@ export const rarityUpgrades: Upgrade[] = [
     icon: <Dna className="h-5 w-5" />,
     category: 'rarity',
     isAvailable: (state) => state.bunnies >= 300 && !state.unlockedUpgrades.includes('selective-breeding'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.midValueChance = 0.4;
+      };
+    },
     requiredBunnies: 300,
   },
   {
@@ -25,7 +29,11 @@ export const rarityUpgrades: Upgrade[] = [
     icon: <Dna className="h-5 w-5" />,
     category: 'rarity',
     isAvailable: (state) => state.bunnies >= 1000 && state.unlockedUpgrades.includes('selective-breeding'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.highValueChance = 0.2;
+      };
+    },
     requiredBunnies: 1000,
     requiredUpgrade: 'selective-breeding',
   },
@@ -38,7 +46,11 @@ export const rarityUpgrades: Upgrade[] = [
     icon: <Bot className="h-5 w-5" />,
     category: 'rarity',
     isAvailable: (state) => state.bunnies >= 10000 && state.unlockedUpgrades.includes('designer-rabbits'),
-    effectFn: () => {},
+    effectFn: function() {
+      return function(gameState) {
+        gameState.highValueMultiplier = 2;
+      };
+    },
     requiredBunnies: 10000,
     requiredUpgrade: 'designer-rabbits',
   },
