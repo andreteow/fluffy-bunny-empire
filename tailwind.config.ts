@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,18 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Custom bunny game colors
+				bunny: {
+					DEFAULT: '#9b87f5', // primary purple
+					light: '#E5DEFF', // soft purple
+					dark: '#6E59A5', // darker purple
+					pink: '#FFDEE2', // soft pink
+					peach: '#FDE1D3', // soft peach
+					yellow: '#FEF7CD', // soft yellow
+					green: '#F2FCE2', // soft green
+					blue: '#D3E4FD', // soft blue
+					gray: '#F1F0FB', // soft gray
 				}
 			},
 			borderRadius: {
@@ -84,11 +97,21 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'hop': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				'pulse-soft': {
+					'0%, 100%': { transform: 'scale(1)' },
+					'50%': { transform: 'scale(1.05)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'hop': 'hop 0.6s ease-in-out',
+				'pulse-soft': 'pulse-soft 2s infinite'
 			}
 		}
 	},

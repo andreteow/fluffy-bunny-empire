@@ -1,13 +1,48 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import { GameProvider } from '@/context/GameContext';
+import BunnyClicker from '@/components/BunnyClicker';
+import BunnyMarket from '@/components/BunnyMarket';
+import BunnyUpgrades from '@/components/BunnyUpgrades';
+import GameStats from '@/components/GameStats';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <GameProvider>
+      <div className="min-h-screen bg-bunny-light p-4 md:p-8">
+        <header className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-bunny animate-pulse-soft">
+            🐰 Bunny Clicker Game 🐰
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Click to feed, multiply, and take over the world!
+          </p>
+        </header>
+        
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main game area */}
+          <div className="lg:col-span-2">
+            <div className="mb-8">
+              <BunnyClicker />
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <BunnyMarket />
+              <BunnyUpgrades />
+            </div>
+          </div>
+          
+          {/* Side panel */}
+          <div className="lg:col-span-1">
+            <GameStats />
+          </div>
+        </div>
+        
+        <footer className="text-center text-gray-500 text-sm mt-12">
+          <p>Bunny Clicker Game - Click, Feed, Multiply!</p>
+        </footer>
       </div>
-    </div>
+    </GameProvider>
   );
 };
 
