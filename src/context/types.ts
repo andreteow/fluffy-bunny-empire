@@ -23,7 +23,7 @@ export interface GameContextType {
   gameState: GameState;
   feedBunny: () => void;
   sellBunnies: (amount: number) => void;
-  buyUpgrade: (cost: number, effect: () => void, upgradeId?: string) => boolean;
+  buyUpgrade: (cost: number, effect: () => (gameState: GameState) => void, upgradeId?: string) => boolean;
   formatNumber: (num: number) => string;
   getProgressPercentage: () => number;
   marketPriceMultiplier: () => number;
@@ -60,7 +60,7 @@ export interface Upgrade {
   icon: React.ReactNode;
   category: 'efficiency' | 'automation' | 'market' | 'rarity';
   isAvailable: (state: GameState) => boolean;
-  effectFn: () => void;
+  effectFn: () => (gameState: GameState) => void;
   requiredBunnies?: number;
   requiredAutoFeedRate?: number;
   requiredUpgrade?: string;

@@ -106,7 +106,7 @@ export const sellBunnies = (
 
 export const buyUpgrade = (
   cost: number,
-  effect: () => void,
+  effect: () => (gameState: GameState) => void,
   gameState: GameState,
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,
   toast: ToastFunction,
@@ -128,9 +128,13 @@ export const buyUpgrade = (
   // Deduct the cost of the upgrade
   newState.money = newState.money - cost;
   
-  // Apply the upgrade effect by calling the function
-  // (this will modify properties on the newState object)
-  effect();
+  // Apply the upgrade effect by calling the function with the game state
+  if (effect) {
+    const effectFunction = effect();
+    if (effectFunction) {
+      effectFunction(newState);
+    }
+  }
   
   // Add the upgrade ID to unlockedUpgrades if provided
   if (upgradeId && !newState.unlockedUpgrades.includes(upgradeId)) {
