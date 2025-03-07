@@ -10,10 +10,11 @@ interface Upgrade {
   id: string;
   name: string;
   description: string;
+  effect: string;
   cost: number;
   icon: React.ReactNode;
   isAvailable: (gameState: any) => boolean;
-  effect: () => void;
+  effectFn: () => void;
   requiredBunnies: number;
   requiredAutoFeedRate?: number;
 }
@@ -25,11 +26,12 @@ const BunnyUpgrades: React.FC = () => {
     {
       id: 'carrot-farming',
       name: 'Carrot Farming',
-      description: 'Bunnies learn to grow carrots. +1 auto feed per second.',
+      description: 'Bunnies learn to grow carrots.',
+      effect: '+1 auto feed per second',
       cost: 100,
       icon: <Carrot className="h-5 w-5" />,
       isAvailable: (state) => state.bunnies >= 10,
-      effect: () => {
+      effectFn: () => {
         // Increase auto feed rate
         gameState.autoFeedRate += 1;
       },
@@ -38,11 +40,12 @@ const BunnyUpgrades: React.FC = () => {
     {
       id: 'smart-bunnies',
       name: 'Smart Bunnies',
-      description: 'Bunnies develop higher intelligence. +2 auto feed per second.',
+      description: 'Bunnies develop higher intelligence.',
+      effect: '+2 auto feed per second',
       cost: 500,
       icon: <Brain className="h-5 w-5" />,
       isAvailable: (state) => state.bunnies >= 50 && state.autoFeedRate >= 1,
-      effect: () => {
+      effectFn: () => {
         // Increase auto feed rate
         gameState.autoFeedRate += 2;
       },
@@ -52,11 +55,12 @@ const BunnyUpgrades: React.FC = () => {
     {
       id: 'robo-feeders',
       name: 'Robo-Feeders',
-      description: 'Automated feeding machines. +5 auto feed per second.',
+      description: 'Automated feeding machines.',
+      effect: '+5 auto feed per second',
       cost: 2000,
       icon: <Bot className="h-5 w-5" />,
       isAvailable: (state) => state.bunnies >= 200 && state.autoFeedRate >= 3,
-      effect: () => {
+      effectFn: () => {
         // Increase auto feed rate
         gameState.autoFeedRate += 5;
       },
@@ -96,19 +100,22 @@ const BunnyUpgrades: React.FC = () => {
                 <TooltipTrigger asChild>
                   <Button
                     variant="outline"
-                    className="w-full flex justify-between items-center px-4 py-3 border-bunny"
-                    onClick={() => buyUpgrade(upgrade.cost, upgrade.effect)}
+                    className="w-full flex flex-col items-start justify-between px-4 py-3 border-bunny h-auto"
+                    onClick={() => buyUpgrade(upgrade.cost, upgrade.effectFn)}
                     disabled={gameState.money < upgrade.cost}
                   >
-                    <div className="flex items-center gap-2">
-                      {upgrade.icon}
-                      <span>{upgrade.name}</span>
+                    <div className="flex w-full justify-between">
+                      <div className="flex items-center gap-2">
+                        {upgrade.icon}
+                        <span>{upgrade.name}</span>
+                      </div>
+                      <span className="text-sm font-semibold">${formatNumber(upgrade.cost)}</span>
                     </div>
-                    <span className="text-sm font-semibold">${formatNumber(upgrade.cost)}</span>
+                    <p className="text-xs text-muted-foreground mt-1">{upgrade.effect}</p>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{upgrade.description}</p>
+                  <p>{upgrade.description} {upgrade.effect}.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -121,18 +128,21 @@ const BunnyUpgrades: React.FC = () => {
                 <TooltipTrigger asChild>
                   <Button
                     variant="outline"
-                    className="w-full flex justify-between items-center px-4 py-3 border-bunny opacity-50"
+                    className="w-full flex flex-col items-start justify-between px-4 py-3 border-bunny opacity-50 h-auto"
                     disabled={true}
                   >
-                    <div className="flex items-center gap-2">
-                      {nextUpgrade.icon}
-                      <span>{nextUpgrade.name}</span>
+                    <div className="flex w-full justify-between">
+                      <div className="flex items-center gap-2">
+                        {nextUpgrade.icon}
+                        <span>{nextUpgrade.name}</span>
+                      </div>
+                      <span className="text-sm font-semibold">${formatNumber(nextUpgrade.cost)}</span>
                     </div>
-                    <span className="text-sm font-semibold">${formatNumber(nextUpgrade.cost)}</span>
+                    <p className="text-xs text-muted-foreground mt-1">{nextUpgrade.effect}</p>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{nextUpgrade.description}</p>
+                  <p>{nextUpgrade.description} {nextUpgrade.effect}.</p>
                   {nextUpgrade.requiredBunnies > gameState.bunnies && (
                     <p className="text-red-500 mt-1">
                       Requires {formatNumber(nextUpgrade.requiredBunnies)} bunnies

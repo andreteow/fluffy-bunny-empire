@@ -27,7 +27,12 @@ const ResetButton: React.FC = () => {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="outline" size="icon" className="rounded-full" aria-label="Reset game">
+        <Button 
+          variant="outline" 
+          size="icon" 
+          className="rounded-full w-10 h-10 flex items-center justify-center" 
+          aria-label="Reset game"
+        >
           <RefreshCcw className="h-5 w-5" />
         </Button>
       </AlertDialogTrigger>

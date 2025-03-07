@@ -16,7 +16,12 @@ const AboutPopup: React.FC = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon" className="rounded-full" aria-label="About the game">
+        <Button 
+          variant="outline" 
+          size="icon" 
+          className="rounded-full w-10 h-10 flex items-center justify-center" 
+          aria-label="About the game"
+        >
           <HelpCircle className="h-5 w-5" />
         </Button>
       </DialogTrigger>

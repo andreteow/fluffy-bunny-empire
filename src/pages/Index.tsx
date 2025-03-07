@@ -12,8 +12,8 @@ const Index = () => {
   return (
     <GameProvider>
       <div className="min-h-screen bg-bunny-light p-4 md:p-8">
-        <header className="text-center mb-8 relative">
-          <div className="absolute right-2 top-2 flex gap-2">
+        <header className="text-center mb-8 pt-14 md:pt-0 relative">
+          <div className="absolute right-2 top-2 md:top-2 flex gap-2 z-10">
             <AboutPopup />
             <ResetButton />
           </div>

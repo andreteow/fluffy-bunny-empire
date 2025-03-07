@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
@@ -8,7 +7,8 @@ const GameStats: React.FC = () => {
   const { gameState, formatNumber } = useGame();
   const [elapsedTime, setElapsedTime] = useState(0);
   const [cps, setCps] = useState(0);
-  const [previousFeedings, setPreviousFeedings] = useState(gameState.totalFeedings);
+  const [previousFeedings, setPreviousFeedings] = useState(0);
+  const [timeWindow, setTimeWindow] = useState<number[]>([]);
   
   // Update elapsed time
   useEffect(() => {
@@ -19,19 +19,34 @@ const GameStats: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
   
-  // Calculate CPS (clicks per second)
+  // Calculate CPS (clicks per second) using a 5-second rolling window
   useEffect(() => {
-    // Calculate CPS based on total feedings change
-    const feedingsDelta = gameState.totalFeedings - previousFeedings;
-    setCps(feedingsDelta);
+    // Track feeding delta in the last 5 seconds
+    setTimeWindow(prev => {
+      const now = Date.now();
+      const newWindow = [...prev, gameState.totalFeedings];
+      
+      // Keep only entries from the last 5 seconds
+      if (newWindow.length > 5) {
+        newWindow.shift();
+      }
+      
+      return newWindow;
+    });
     
-    // Update previous feedings
+    // Calculate CPS based on the total change over the window
+    if (timeWindow.length >= 2) {
+      const feedingsDelta = gameState.totalFeedings - timeWindow[0];
+      const secondsDelta = Math.min(timeWindow.length - 1, 5);
+      setCps(Math.round(feedingsDelta / secondsDelta));
+    }
+    
     const interval = setInterval(() => {
       setPreviousFeedings(gameState.totalFeedings);
     }, 1000);
     
     return () => clearInterval(interval);
-  }, [gameState.totalFeedings, previousFeedings]);
+  }, [gameState.totalFeedings, timeWindow]);
   
   // Format time as HH:MM:SS
   const formatTime = (seconds: number): string => {
