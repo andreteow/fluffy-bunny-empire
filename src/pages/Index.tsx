@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { GameProvider } from '@/context/GameContext';
 import BunnyClicker from '@/components/BunnyClicker';
@@ -45,7 +44,6 @@ const Index = () => {
         </div>
         
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main game area */}
           <div className="lg:col-span-2">
             <div className="mb-8">
               <BunnyClicker />
@@ -57,7 +55,6 @@ const Index = () => {
             </div>
           </div>
           
-          {/* Side panel - visible only on desktop */}
           <div className="lg:col-span-1 hidden lg:block">
             <GameStats />
           </div>
@@ -67,12 +64,9 @@ const Index = () => {
           <p>Bunny Clicker Game - Click, Feed, Multiply!</p>
         </footer>
 
-        {/* Victory Dialog */}
         <VictoryDialog />
 
-        {/* Add confetti animation styles - fix the style tag */}
-        <style>
-          {`
+        <style dangerouslySetInnerHTML={{ __html: `
           @keyframes fall {
             0% {
               transform: translateY(0) rotate(0deg);
@@ -96,8 +90,7 @@ const Index = () => {
           .animate-fall {
             animation: fall 3s linear forwards;
           }
-          `}
-        </style>
+        `}} />
       </div>
     </GameProvider>
   );

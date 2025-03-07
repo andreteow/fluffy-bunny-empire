@@ -65,13 +65,13 @@ export const useAutoFeed = (
   feedBunnyAction: () => void
 ) => {
   React.useEffect(() => {
-    if (gameState.autoFeedRate === 0) return;
+    if (gameState.autoFeedRate <= 0) return;
     
+    // This interval will trigger once per second
     const autoFeedInterval = setInterval(() => {
-      for (let i = 0; i < gameState.autoFeedRate; i++) {
-        feedBunnyAction();
-      }
-    }, 1000);
+      // Call feedBunny once for each point of autoFeedRate
+      feedBunnyAction();
+    }, 1000 / gameState.autoFeedRate); // Adjust interval to create proper frequency
     
     return () => clearInterval(autoFeedInterval);
   }, [gameState.autoFeedRate, feedBunnyAction]);
