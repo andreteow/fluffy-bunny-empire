@@ -68,7 +68,7 @@ const LeaderboardDrawer: React.FC = () => {
         <Button 
           size="icon" 
           variant="outline" 
-          className="fixed bottom-16 left-4 z-50 rounded-full h-12 w-12 shadow-md bg-white border-gray-200"
+          className="shadow-md bg-white border-gray-200"
         >
           <Trophy className="h-5 w-5 text-amber-500" />
         </Button>

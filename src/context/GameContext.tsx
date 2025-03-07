@@ -69,17 +69,20 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     fetchLeaderboard();
   }, [toast]);
 
-  // Update elapsed time
+  // Update elapsed time only if the game has started (totalFeedings > 0)
   useEffect(() => {
-    const timer = setInterval(() => {
-      setGameState(prev => ({
-        ...prev,
-        elapsedTime: prev.elapsedTime + 1
-      }));
-    }, 1000);
-    
-    return () => clearInterval(timer);
-  }, []);
+    // Only start the timer if the user has made at least one feeding
+    if (gameState.totalFeedings > 0) {
+      const timer = setInterval(() => {
+        setGameState(prev => ({
+          ...prev,
+          elapsedTime: prev.elapsedTime + 1
+        }));
+      }, 1000);
+      
+      return () => clearInterval(timer);
+    }
+  }, [gameState.totalFeedings]);
 
   // Save game state whenever it changes
   useEffect(() => {

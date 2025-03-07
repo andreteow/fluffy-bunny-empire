@@ -20,6 +20,7 @@ const Index = () => {
       <div className="min-h-screen bg-white p-4 md:p-8">
         <header className="text-center mb-10 pt-14 md:pt-6 relative">
           <div className="absolute right-2 top-2 md:top-2 flex gap-2 z-20">
+            <LeaderboardDrawer />
             <AboutPopup />
             <ResetButton />
           </div>
@@ -44,8 +45,6 @@ const Index = () => {
             </SheetContent>
           </Sheet>
         </div>
-        
-        <LeaderboardDrawer />
         
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
