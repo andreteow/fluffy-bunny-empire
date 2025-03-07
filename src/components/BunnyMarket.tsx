@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
@@ -7,25 +6,57 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CircleDollarSign, TrendingDown, TrendingUp } from 'lucide-react';
 
+const highDemandSound = new Audio('/notification.mp3');
+
 const BunnyMarket: React.FC = () => {
   const { gameState, sellBunnies, formatNumber, bunnyValue, marketPriceMultiplier } = useGame();
   const [sellAmount, setSellAmount] = useState<number>(1);
+  const [bunnyStats, setBunnyStats] = useState({ low: 0, mid: 0, high: 0 });
+
+  useEffect(() => {
+    let low = 0, mid = 0, high = 0;
+    const totalTrials = 1000;
+
+    for (let i = 0; i < totalTrials; i++) {
+      const rand = Math.random();
+      if (rand < gameState.highValueChance) {
+        high++;
+      } else if (rand < gameState.highValueChance + gameState.midValueChance) {
+        mid++;
+      } else {
+        low++;
+      }
+    }
+    
+    setBunnyStats({
+      low: Math.round((low / totalTrials) * 100),
+      mid: Math.round((mid / totalTrials) * 100),
+      high: Math.round((high / totalTrials) * 100)
+    });
+  }, [gameState.highValueChance, gameState.midValueChance]);
+
+  useEffect(() => {
+    if (gameState.marketDemand === 'high') {
+      highDemandSound.play().catch(err => console.log('Audio play failed:', err));
+    }
+  }, [gameState.marketDemand]);
 
   useEffect(() => {
     if (gameState.bunnies <= 1) {
       setSellAmount(0);
     } else if (sellAmount >= gameState.bunnies) {
-      setSellAmount(gameState.bunnies - 1); // Keep at least 1 bunny
+      setSellAmount(gameState.bunnies - 1);
     }
   }, [gameState.bunnies, sellAmount]);
 
   const handleSellAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    if (isNaN(value) || value < 0) {
+    const value = e.target.value.replace(/^0+/, '');
+    const numValue = parseInt(value || '0');
+    
+    if (isNaN(numValue) || numValue < 0) {
       setSellAmount(0);
     } else {
-      // Ensure we keep at least 1 bunny
-      setSellAmount(Math.min(value, gameState.bunnies - 1));
+      setSellAmount(Math.min(numValue, gameState.bunnies - 1));
     }
   };
 
@@ -79,6 +110,24 @@ const BunnyMarket: React.FC = () => {
           <span className="text-sm font-medium">
             {gameState.marketTimer}s
           </span>
+        </div>
+      </div>
+
+      <div className="mb-4 p-3 bg-gray-50 rounded-lg text-sm">
+        <h4 className="font-medium mb-2">Bunny Value Distribution:</h4>
+        <div className="grid grid-cols-3 gap-2">
+          <div>
+            <span className="text-gray-600">Basic:</span>
+            <span className="ml-1 font-medium">{bunnyStats.low}%</span>
+          </div>
+          <div>
+            <span className="text-clay-blue">Quality:</span>
+            <span className="ml-1 font-medium">{bunnyStats.mid}%</span>
+          </div>
+          <div>
+            <span className="text-clay-green">Premium:</span>
+            <span className="ml-1 font-medium">{bunnyStats.high}%</span>
+          </div>
         </div>
       </div>
       

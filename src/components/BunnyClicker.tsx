@@ -11,7 +11,7 @@ const BunnyClicker: React.FC = () => {
   const handleClick = () => {
     feedBunny();
     setIsHopping(true);
-    setTimeout(() => setIsHopping(false), 600); // Match animation duration
+    setTimeout(() => setIsHopping(false), 600);
   };
 
   return (
@@ -25,9 +25,14 @@ const BunnyClicker: React.FC = () => {
         onClick={handleClick}
       >
         <div className={`bunny-clicker ${isHopping ? 'animate-hop' : ''}`}>
-          <div className="text-9xl mb-3">🐰</div>
+          <img 
+            src="/bunny-icon.png" 
+            alt="Bunny" 
+            className="w-48 h-48 object-contain"
+            draggable="false"
+          />
         </div>
-        <p className="text-xl font-semibold text-clay">Click to feed!</p>
+        <p className="text-xl font-semibold text-clay mt-4">Click to feed!</p>
         {gameState.feedsPerClick > 1 && (
           <p className="text-sm text-clay-pink-dark mt-1">+{gameState.feedsPerClick} feeds per click</p>
         )}

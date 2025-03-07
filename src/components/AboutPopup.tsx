@@ -27,9 +27,9 @@ const AboutPopup: React.FC = () => {
       </DialogTrigger>
       <DialogContent className="max-w-[90vw] md:max-w-[500px] max-h-[80vh] overflow-hidden border-0 rounded-2xl shadow-lg bg-gradient-to-br from-white to-clay-blue-light">
         <DialogHeader>
-          <DialogTitle className="text-2xl text-clay font-bold">How to Play Bunny Clicker</DialogTitle>
+          <DialogTitle className="text-2xl text-clay font-bold">How to Play Bunny Empire</DialogTitle>
           <DialogDescription className="text-lg font-medium text-clay-blue">
-            A fun game about growing your bunny family!
+            Grow your bunny empire to 10,000 bunnies!
           </DialogDescription>
         </DialogHeader>
         
@@ -39,26 +39,28 @@ const AboutPopup: React.FC = () => {
               <h3 className="text-lg font-bold text-clay-green flex items-center gap-2">
                 <span className="text-2xl">🐰</span> How to Play
               </h3>
-              <p className="mt-2">Click on the bunny to feed it! When your bunny eats enough food, it makes new baby bunnies!</p>
-              <p className="mt-2">Each time your bunnies have babies, you'll need more food for the next time.</p>
+              <p className="mt-2">Click on the bunny to feed it! When your bunny eats enough food, it multiplies and makes new bunnies!</p>
+              <p className="mt-2">Each time your bunnies multiply, you'll need more food for the next multiplication.</p>
             </section>
             
             <section className="bg-white p-4 rounded-xl shadow-sm">
               <h3 className="text-lg font-bold text-clay-pink flex items-center gap-2">
                 <span className="text-2xl">💰</span> Selling Bunnies
               </h3>
-              <p className="mt-2">You can sell some of your bunnies to get money. But remember - keep at least one bunny!</p>
-              <p className="mt-2">Sometimes people will pay more for your bunnies (High Demand), and sometimes less (Low Demand). Try to sell when the price is high!</p>
+              <p className="mt-2">You can sell your bunnies in the market to earn money. Keep at least one bunny to continue breeding!</p>
+              <p className="mt-2">Market demand changes periodically - High demand means better prices, while Low demand means lower prices. Watch for market changes!</p>
             </section>
             
             <section className="bg-white p-4 rounded-xl shadow-sm">
               <h3 className="text-lg font-bold text-clay-blue flex items-center gap-2">
                 <span className="text-2xl">⚙️</span> Cool Upgrades
               </h3>
-              <p className="mt-2">Use your money to buy special upgrades that make your bunnies happier and help them make more babies!</p>
+              <p className="mt-2">Use your money to buy special upgrades:</p>
               <ul className="list-disc ml-6 mt-2 space-y-1">
-                <li>Bunny Feeding - makes each click give more food</li>
-                <li>Auto Feeding - bunnies learn to feed themselves!</li>
+                <li>Auto-Feeding - Your bunnies get fed automatically</li>
+                <li>Feeds Per Click - Get more food per click</li>
+                <li>Market Improvements - Better chances for valuable bunnies</li>
+                <li>And more!</li>
               </ul>
             </section>
             
@@ -66,14 +68,7 @@ const AboutPopup: React.FC = () => {
               <h3 className="text-lg font-bold text-clay-yellow flex items-center gap-2">
                 <span className="text-2xl">🎯</span> Game Goal
               </h3>
-              <p className="mt-2">Try to get 100 bunnies to win the game! Can you take over the world with your bunny family?</p>
-            </section>
-
-            <section className="bg-white p-4 rounded-xl shadow-sm">
-              <h3 className="text-lg font-bold text-clay-lavender flex items-center gap-2">
-                <span className="text-2xl">💾</span> Starting Over
-              </h3>
-              <p className="mt-2">If you want to start a new game, press the reset button at the top of the screen.</p>
+              <p className="mt-2">Grow your bunny empire to 10,000 bunnies to win the game! The game keeps running even when closed, so your bunnies keep multiplying!</p>
             </section>
           </div>
         </ScrollArea>
