@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Brain, Carrot, Robot } from 'lucide-react';
+import { Brain, Carrot, Bot } from 'lucide-react';
 
 interface Upgrade {
   id: string;
@@ -49,7 +48,7 @@ const BunnyUpgrades: React.FC = () => {
       name: 'Robo-Feeders',
       description: 'Automated feeding machines. +5 auto feed per second.',
       cost: 2000,
-      icon: <Robot className="h-5 w-5" />,
+      icon: <Bot className="h-5 w-5" />,
       isAvailable: (state) => state.bunnies >= 200 && state.autoFeedRate >= 3,
       effect: () => {
         // Increase auto feed rate
