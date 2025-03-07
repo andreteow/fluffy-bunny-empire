@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Upgrade } from '@/context/types';
 import { Carrot, Brain, Bot, TrendingUp, Video, Gem, Dna, Rabbit } from 'lucide-react';
