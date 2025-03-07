@@ -26,7 +26,7 @@ const Index = () => {
           </div>
           
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 z-10 relative">
-            🐰 Bunny Clicker Game 🐰
+            🐰 Bunny Empire 🐰
           </h1>
           <p className="text-gray-600 text-lg mt-2">
             Click to feed, multiply, and take over the world!
@@ -64,7 +64,7 @@ const Index = () => {
         </div>
         
         <footer className="text-center text-gray-500 text-sm mt-16">
-          <p>Bunny Clicker Game - Click, Feed, Multiply!</p>
+          <p>Bunny Empire - Click, Feed, Multiply!</p>
         </footer>
 
         <VictoryDialog />

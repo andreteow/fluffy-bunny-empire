@@ -32,7 +32,7 @@ const Confetti: React.FC = () => {
 };
 
 const VictoryDialog: React.FC = () => {
-  const { gameState, addLeaderboardEntry } = useGame();
+  const { gameState, addLeaderboardEntry, resetGame } = useGame();
   const [open, setOpen] = useState(false);
   const [playerName, setPlayerName] = useState('');
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -55,6 +55,7 @@ const VictoryDialog: React.FC = () => {
       await addLeaderboardEntry(playerName, gameState.elapsedTime);
       setHasSubmitted(true);
       setOpen(false);
+      resetGame(); // Reset the game after submitting score
     } catch (error) {
       console.error('Error submitting score:', error);
     } finally {
@@ -63,9 +64,10 @@ const VictoryDialog: React.FC = () => {
   };
 
   const handleContinuePlaying = () => {
-    // Just close the dialog without adding to leaderboard
+    // Reset the game when the player chooses to continue without adding to leaderboard
     setHasSubmitted(true);
     setOpen(false);
+    resetGame();
   };
 
   return (

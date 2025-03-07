@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Button } from '@/components/ui/button';
 import { Trophy, Calendar, Clock, List, Loader2 } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
 
@@ -26,7 +27,7 @@ const LeaderboardDrawer: React.FC = () => {
           { name: "BunnyBooster", time: 2250, timestamp: Date.now() - 86400000 * 5 },
           { name: "HoppyWinner", time: 2400, timestamp: Date.now() },
           { name: "JumpingJack", time: 2550, timestamp: Date.now() - 86400000 * 2 },
-          { name: "CarrotChaser", time: 2700, timestamp: Date.now() }
+          { name: "CarrotChaser", time: 2700, timestamp: Date.now() - 86400000 * 1 }
         ];
 
         // Add dummy entries one by one
@@ -105,20 +106,24 @@ const LeaderboardDrawer: React.FC = () => {
                 </TabsList>
               </div>
               
-              <TabsContent value="all-time" className="px-4 flex-1 overflow-y-auto">
-                {sortedAllTimeEntries.length > 0 ? (
-                  <LeaderboardTable entries={sortedAllTimeEntries} formatTime={formatTime} />
-                ) : (
-                  <EmptyState message="No entries yet. Be the first to win!" />
-                )}
+              <TabsContent value="all-time" className="px-4 flex-1">
+                <ScrollArea className="h-[calc(100vh-180px)]">
+                  {sortedAllTimeEntries.length > 0 ? (
+                    <LeaderboardTable entries={sortedAllTimeEntries} formatTime={formatTime} />
+                  ) : (
+                    <EmptyState message="No entries yet. Be the first to win!" />
+                  )}
+                </ScrollArea>
               </TabsContent>
               
-              <TabsContent value="daily" className="px-4 flex-1 overflow-y-auto">
-                {sortedDailyEntries.length > 0 ? (
-                  <LeaderboardTable entries={sortedDailyEntries} formatTime={formatTime} />
-                ) : (
-                  <EmptyState message="No entries today. Be the first to win today!" />
-                )}
+              <TabsContent value="daily" className="px-4 flex-1">
+                <ScrollArea className="h-[calc(100vh-180px)]">
+                  {sortedDailyEntries.length > 0 ? (
+                    <LeaderboardTable entries={sortedDailyEntries} formatTime={formatTime} />
+                  ) : (
+                    <EmptyState message="No entries today. Be the first to win today!" />
+                  )}
+                </ScrollArea>
               </TabsContent>
             </Tabs>
           )}
@@ -134,7 +139,7 @@ const LeaderboardTable: React.FC<{
   formatTime: (seconds: number) => string
 }> = ({ entries, formatTime }) => {
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 pb-6">
       {entries.map((entry, index) => (
         <div 
           key={`entry-${index}-${entry.timestamp}`} 
