@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { GameProvider } from '@/context/GameContext';
+import { GameProvider } from '@/context/GameContextProvider';
 import BunnyClicker from '@/components/BunnyClicker';
 import BunnyMarket from '@/components/BunnyMarket';
 import BunnyUpgrades from '@/components/BunnyUpgrades';
