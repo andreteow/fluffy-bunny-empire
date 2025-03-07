@@ -20,25 +20,17 @@ export const feedBunny = (
     const newBunnies = gameState.bunnies * 2;
     const newThreshold = Math.floor(gameState.feedingsForNextMultiplication * 2.5);
     
-    // Double all bunny types
-    const newBunnyTypes = {
-      low: gameState.bunnyTypes.low * 2,
-      mid: gameState.bunnyTypes.mid * 2,
-      high: gameState.bunnyTypes.high * 2
-    };
-    
     setGameState(prevState => ({
       ...prevState,
       bunnies: newBunnies,
       food: 0,
       feedingsForNextMultiplication: newThreshold,
       totalFeedings: newTotalFeedings,
-      bunnyTypes: newBunnyTypes
     }));
     
     // Show multiplication notification
     toast({
-      title: "Bunnies bred!",
+      title: "Bunnies multiplied!",
       description: `Your bunnies doubled to ${formatNumber(newBunnies)}!`,
     });
   } else {
@@ -74,24 +66,14 @@ export const sellBunnies = (
   
   // Calculate money earned (tier distribution based on chances)
   let moneyEarned = 0;
-  const soldBunnyTypes = {
-    low: 0,
-    mid: 0,
-    high: 0
-  };
-  
   for (let i = 0; i < amount; i++) {
     const rand = Math.random();
     let tier: 'low' | 'mid' | 'high' = 'low';
     
     if (rand < gameState.highValueChance) {
       tier = 'high';
-      soldBunnyTypes.high++;
     } else if (rand < gameState.highValueChance + gameState.midValueChance) {
       tier = 'mid';
-      soldBunnyTypes.mid++;
-    } else {
-      soldBunnyTypes.low++;
     }
     
     // Apply multipliers based on tier
@@ -110,29 +92,14 @@ export const sellBunnies = (
     moneyEarned += value;
   }
   
-  // Update bunny types in game state
-  const newBunnyTypes = {
-    low: Math.max(0, gameState.bunnyTypes.low - soldBunnyTypes.low),
-    mid: Math.max(0, gameState.bunnyTypes.mid - soldBunnyTypes.mid),
-    high: Math.max(0, gameState.bunnyTypes.high - soldBunnyTypes.high)
-  };
-  
-  // Ensure we have at least 1 bunny total
-  if (newBunnyTypes.low + newBunnyTypes.mid + newBunnyTypes.high < 1) {
-    newBunnyTypes.low = 1;
-  }
-  
   setGameState(prevState => ({
     ...prevState,
     bunnies: prevState.bunnies - amount,
     money: prevState.money + moneyEarned,
-    bunnyTypes: newBunnyTypes
   }));
   
-  const bunnyBreakdown = `(Basic: ${soldBunnyTypes.low}, Quality: ${soldBunnyTypes.mid}, Premium: ${soldBunnyTypes.high})`;
-  
   toast({
-    title: `Sold ${amount} bunnies ${bunnyBreakdown}`,
+    title: `Sold ${amount} bunnies`,
     description: `Earned $${moneyEarned} from the sale!`,
   });
 };
@@ -210,11 +177,6 @@ export const resetGame = (
     highValueMultiplier: 1,
     unlockedUpgrades: [],
     elapsedTime: 0,
-    bunnyTypes: {
-      low: 1,
-      mid: 0,
-      high: 0
-    }
   };
   
   // Reset to initial state - this ensures all upgrades, effects, and counters are reset

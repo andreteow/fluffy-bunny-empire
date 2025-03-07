@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
@@ -128,24 +127,6 @@ const BunnyMarket: React.FC = () => {
           <div>
             <span className="text-clay-green">Premium:</span>
             <span className="ml-1 font-medium">{bunnyStats.high}%</span>
-          </div>
-        </div>
-      </div>
-      
-      <div className="mb-4 p-3 bg-gray-50 rounded-lg text-sm">
-        <h4 className="font-medium mb-2">Your Bunny Collection:</h4>
-        <div className="grid grid-cols-3 gap-2">
-          <div>
-            <span className="text-gray-600">Basic:</span>
-            <span className="ml-1 font-medium">{gameState.bunnyTypes.low}</span>
-          </div>
-          <div>
-            <span className="text-clay-blue">Quality:</span>
-            <span className="ml-1 font-medium">{gameState.bunnyTypes.mid}</span>
-          </div>
-          <div>
-            <span className="text-clay-green">Premium:</span>
-            <span className="ml-1 font-medium">{gameState.bunnyTypes.high}</span>
           </div>
         </div>
       </div>

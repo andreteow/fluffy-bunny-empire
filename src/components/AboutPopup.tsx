@@ -39,8 +39,8 @@ const AboutPopup: React.FC = () => {
               <h3 className="text-lg font-bold text-clay-green flex items-center gap-2">
                 <span className="text-2xl">🐰</span> How to Play
               </h3>
-              <p className="mt-2">Click on the bunny to feed it! When your bunny eats enough food, it breeds and makes new bunnies!</p>
-              <p className="mt-2">Each time your bunnies breed, you'll need more food for the next breeding cycle.</p>
+              <p className="mt-2">Click on the bunny to feed it! When your bunny eats enough food, it multiplies and makes new bunnies!</p>
+              <p className="mt-2">Each time your bunnies multiply, you'll need more food for the next multiplication.</p>
             </section>
             
             <section className="bg-white p-4 rounded-xl shadow-sm">
@@ -49,7 +49,6 @@ const AboutPopup: React.FC = () => {
               </h3>
               <p className="mt-2">You can sell your bunnies in the market to earn money. Keep at least one bunny to continue breeding!</p>
               <p className="mt-2">Market demand changes periodically - High demand means better prices, while Low demand means lower prices. Watch for market changes!</p>
-              <p className="mt-2">Bunnies have different values: Basic (low value), Quality (medium value), and Premium (high value).</p>
             </section>
             
             <section className="bg-white p-4 rounded-xl shadow-sm">
@@ -69,7 +68,7 @@ const AboutPopup: React.FC = () => {
               <h3 className="text-lg font-bold text-clay-yellow flex items-center gap-2">
                 <span className="text-2xl">🎯</span> Game Goal
               </h3>
-              <p className="mt-2">Grow your bunny empire to 10,000 bunnies to win the game! The game keeps running even when closed, so your bunnies keep breeding!</p>
+              <p className="mt-2">Grow your bunny empire to 10,000 bunnies to win the game! The game keeps running even when closed, so your bunnies keep multiplying!</p>
             </section>
           </div>
         </ScrollArea>

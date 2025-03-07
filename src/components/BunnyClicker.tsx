@@ -40,7 +40,7 @@ const BunnyClicker: React.FC = () => {
       
       <div className="w-full max-w-md">
         <div className="flex justify-between text-sm mb-2">
-          <span className="font-medium text-clay">Progress to next breeding:</span>
+          <span className="font-medium text-clay">Progress to next multiplication:</span>
           <span className="font-bold">
             {gameState.food} / {gameState.feedingsForNextMultiplication}
           </span>
@@ -48,6 +48,7 @@ const BunnyClicker: React.FC = () => {
         <Progress 
           value={getProgressPercentage()} 
           className="h-4 bg-gray-100 rounded-full" 
+          // Clay-inspired progress indicator
           indicatorClassName="bg-clay-green transition-all duration-300"
         />
       </div>

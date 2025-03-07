@@ -18,11 +18,6 @@ export interface GameState {
   highValueMultiplier: number;
   unlockedUpgrades: string[];
   elapsedTime: number;
-  bunnyTypes: {
-    low: number;
-    mid: number;
-    high: number;
-  };
 }
 
 export interface LeaderboardEntry {
@@ -66,11 +61,6 @@ export const initialGameState: GameState = {
   highValueMultiplier: 1,
   unlockedUpgrades: [],
   elapsedTime: 0,
-  bunnyTypes: {
-    low: 1, // Start with 1 basic bunny
-    mid: 0,
-    high: 0
-  }
 };
 
 export interface Upgrade {
