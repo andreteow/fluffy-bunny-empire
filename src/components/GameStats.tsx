@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
-import { Clock, Activity } from 'lucide-react';
+import { Clock, Activity, Zap, BarChart3 } from 'lucide-react';
 
 const GameStats: React.FC = () => {
   const { gameState, formatNumber } = useGame();
@@ -64,6 +64,18 @@ const GameStats: React.FC = () => {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // Calculate goal percentage with more precision for large numbers
+  const calculateGoalPercentage = () => {
+    const percentage = (gameState.bunnies / 100000000000) * 100;
+    if (percentage < 0.0001) {
+      return percentage.toExponential(4);
+    } else if (percentage < 0.01) {
+      return percentage.toFixed(6);
+    } else {
+      return percentage.toFixed(4);
+    }
+  };
+
   return (
     <Card className="p-4 bg-bunny-yellow bg-opacity-40 border-2 border-bunny-yellow rounded-xl">
       <h3 className="text-xl font-bold mb-2">Stats</h3>
@@ -90,6 +102,11 @@ const GameStats: React.FC = () => {
         </div>
         
         <div className="flex justify-between">
+          <span>Feeds per click:</span>
+          <span className="font-semibold">{gameState.feedsPerClick}</span>
+        </div>
+        
+        <div className="flex justify-between">
           <span>Auto-feed rate:</span>
           <span className="font-semibold">{gameState.autoFeedRate}/sec</span>
         </div>
@@ -107,6 +124,20 @@ const GameStats: React.FC = () => {
           </span>
           <span className="font-semibold">{cps}/sec</span>
         </div>
+        
+        <div className="flex justify-between items-center">
+          <span className="flex items-center gap-1">
+            <Zap className="h-4 w-4" /> High value chance:
+          </span>
+          <span className="font-semibold">{(gameState.highValueChance * 100).toFixed(0)}%</span>
+        </div>
+        
+        <div className="flex justify-between items-center">
+          <span className="flex items-center gap-1">
+            <BarChart3 className="h-4 w-4" /> Mid value chance:
+          </span>
+          <span className="font-semibold">{(gameState.midValueChance * 100).toFixed(0)}%</span>
+        </div>
       </div>
       
       <div className="mt-4 text-xs text-center text-gray-500">
@@ -114,7 +145,7 @@ const GameStats: React.FC = () => {
         <p className="text-xs mt-1">
           {gameState.bunnies >= 100000000000 
             ? '🎉 You did it! The world is covered in bunnies!' 
-            : `${((gameState.bunnies / 100000000000) * 100).toFixed(10)}% complete`}
+            : `${calculateGoalPercentage()}% complete`}
         </p>
       </div>
     </Card>

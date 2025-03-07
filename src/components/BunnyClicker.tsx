@@ -28,6 +28,9 @@ const BunnyClicker: React.FC = () => {
           <div className="text-8xl mb-2">🐰</div>
         </div>
         <p className="text-lg font-semibold">Click to feed!</p>
+        {gameState.feedsPerClick > 1 && (
+          <p className="text-sm text-muted-foreground">+{gameState.feedsPerClick} feeds per click</p>
+        )}
       </Card>
       
       <div className="w-full max-w-md">

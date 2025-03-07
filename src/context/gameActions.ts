@@ -1,3 +1,4 @@
+
 import { GameState } from './types';
 import { bunnyValue } from './gameUtils';
 import { ToastProps } from '@/components/ui/toast';
@@ -10,8 +11,9 @@ export const feedBunny = (
   toast: ToastFunction,
   formatNumber: (num: number) => string
 ) => {
-  const newFood = gameState.food + 1;
-  const newTotalFeedings = gameState.totalFeedings + 1;
+  // Add food based on feedsPerClick
+  const newFood = gameState.food + gameState.feedsPerClick;
+  const newTotalFeedings = gameState.totalFeedings + gameState.feedsPerClick;
   
   // Check if we've reached the threshold for multiplication
   if (newFood >= gameState.feedingsForNextMultiplication) {
@@ -62,19 +64,32 @@ export const sellBunnies = (
     amount = gameState.bunnies - 1;
   }
   
-  // Calculate money earned (random tier distribution)
+  // Calculate money earned (tier distribution based on chances)
   let moneyEarned = 0;
   for (let i = 0; i < amount; i++) {
     const rand = Math.random();
     let tier: 'low' | 'mid' | 'high' = 'low';
     
-    if (rand > 0.9) {
+    if (rand < gameState.highValueChance) {
       tier = 'high';
-    } else if (rand > 0.6) {
+    } else if (rand < gameState.highValueChance + gameState.midValueChance) {
       tier = 'mid';
     }
     
-    moneyEarned += bunnyValue(tier, gameState.marketDemand);
+    // Apply multipliers based on tier
+    let value = bunnyValue(tier, gameState.marketDemand);
+    
+    // Apply rarity value multiplier for mid and high tiers
+    if (tier === 'mid' || tier === 'high') {
+      value = Math.floor(value * gameState.rarityValueMultiplier);
+    }
+    
+    // Apply high value multiplier for high tier
+    if (tier === 'high') {
+      value = Math.floor(value * gameState.highValueMultiplier);
+    }
+    
+    moneyEarned += value;
   }
   
   setGameState(prevState => ({
@@ -94,7 +109,8 @@ export const buyUpgrade = (
   effect: () => void,
   gameState: GameState,
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,
-  toast: ToastFunction
+  toast: ToastFunction,
+  upgradeId?: string
 ): boolean => {
   if (gameState.money < cost) {
     toast({
@@ -105,10 +121,19 @@ export const buyUpgrade = (
     return false;
   }
   
-  setGameState(prevState => ({
-    ...prevState,
-    money: prevState.money - cost,
-  }));
+  setGameState(prevState => {
+    const newState = {
+      ...prevState,
+      money: prevState.money - cost,
+    };
+    
+    // Add upgrade to unlocked upgrades if provided
+    if (upgradeId && !prevState.unlockedUpgrades.includes(upgradeId)) {
+      newState.unlockedUpgrades = [...prevState.unlockedUpgrades, upgradeId];
+    }
+    
+    return newState;
+  });
   
   effect();
   return true;

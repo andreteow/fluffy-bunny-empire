@@ -16,14 +16,14 @@ export const useMarketDemandCycle = (
     const marketInterval = setInterval(() => {
       setGameState(prevState => {
         // Update timer
-        const newTimer = prevState.marketTimer > 0 ? prevState.marketTimer - 1 : 30;
+        const newTimer = prevState.marketTimer > 0 ? prevState.marketTimer - 1 : prevState.marketDemandDuration;
         
         // If timer hit zero, change demand
-        if (newTimer === 30) {
+        if (newTimer === prevState.marketDemandDuration) {
           const rand = Math.random();
           let newDemand: 'low' | 'normal' | 'high' = 'normal';
           
-          if (rand < 0.1) {
+          if (rand < prevState.highDemandChance) {
             newDemand = 'high';
           } else if (rand > 0.8) {
             newDemand = 'low';
