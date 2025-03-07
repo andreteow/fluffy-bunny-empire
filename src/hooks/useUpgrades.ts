@@ -8,19 +8,17 @@ export type UpgradeCategory = 'efficiency' | 'automation' | 'market' | 'rarity';
 export const useUpgrades = (activeTab: UpgradeCategory) => {
   const { gameState } = useGame();
   
-  // Get upgrades for the current active tab
+  // Get all upgrades for the current active tab
   const categoryUpgrades = getUpgradesByCategory(activeTab);
   
-  // Filter to get available upgrades that meet requirements
+  // Treat all upgrades as available, only filtering out ones that are already unlocked
+  // We're removing the isAvailable check to make all upgrades purchasable regardless of bunny count
   const availableUpgrades = categoryUpgrades.filter(upgrade => 
-    upgrade.isAvailable(gameState)
-  );
-  
-  // Get the next upgrade that's not yet available but could be soon
-  const upcomingUpgrades = categoryUpgrades.filter(upgrade => 
-    !upgrade.isAvailable(gameState) && 
     !gameState.unlockedUpgrades.includes(upgrade.id)
   );
+  
+  // There are no "upcoming" upgrades anymore since all are treated as available
+  const upcomingUpgrades: Upgrade[] = [];
 
   const getCategoryStats = () => {
     switch(activeTab) {

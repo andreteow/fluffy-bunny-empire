@@ -101,7 +101,7 @@ const UpgradeItem: React.FC<UpgradeItemProps> = ({ upgrade, isAvailable }) => {
               </div>
               <span className="text-sm font-semibold">${formatNumber(upgrade.cost)}</span>
             </div>
-            <p className="text-xs text-muted-foreground mt-1 truncate">{upgrade.description} {upgrade.effect}</p>
+            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{upgrade.description} {upgrade.effect}</p>
           </Button>
         </TooltipTrigger>
         <TooltipContent>
@@ -109,26 +109,10 @@ const UpgradeItem: React.FC<UpgradeItemProps> = ({ upgrade, isAvailable }) => {
           {isUnlocked && (
             <p className="text-green-500 mt-1">Already purchased!</p>
           )}
-          {!isAvailable && !isUnlocked && (
-            <div>
-              {upgrade.requiredBunnies && upgrade.requiredBunnies > gameState.bunnies && (
-                <p className="text-red-500 mt-1">
-                  Requires {formatNumber(upgrade.requiredBunnies)} bunnies
-                </p>
-              )}
-              {upgrade.requiredAutoFeedRate !== undefined && 
-               gameState.autoFeedRate < upgrade.requiredAutoFeedRate && (
-                <p className="text-red-500 mt-1">
-                  Requires auto-feed rate of {upgrade.requiredAutoFeedRate}/sec
-                </p>
-              )}
-              {upgrade.requiredUpgrade && 
-               !gameState.unlockedUpgrades.includes(upgrade.requiredUpgrade) && (
-                <p className="text-red-500 mt-1">
-                  Requires {upgrade.requiredUpgrade} upgrade
-                </p>
-              )}
-            </div>
+          {!isAvailable && !isUnlocked && !canAfford && (
+            <p className="text-red-500 mt-1">
+              Not enough money (need ${formatNumber(upgrade.cost)})
+            </p>
           )}
           {isAvailable && !isUnlocked && !canAfford && (
             <p className="text-red-500 mt-1">

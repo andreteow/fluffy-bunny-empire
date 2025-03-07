@@ -22,24 +22,19 @@ const UpgradeCategoryTab: React.FC<UpgradeCategoryTabProps> = ({
     <TabsContent value={category} className="space-y-3">
       {availableUpgrades.length === 0 && upcomingUpgrades.length === 0 ? (
         <p className="text-center text-muted-foreground py-4">
-          Get more bunnies to unlock upgrades!
+          No upgrades available in this category yet.
         </p>
       ) : (
         <div className="space-y-3">
-          {/* Show available upgrades */}
-          {availableUpgrades
+          {/* Show all upgrades as available, only check if they're already purchased */}
+          {[...availableUpgrades, ...upcomingUpgrades]
             .filter(u => !gameState.unlockedUpgrades.includes(u.id))
             .map((upgrade) => (
               <UpgradeItem key={upgrade.id} upgrade={upgrade} isAvailable={true} />
             ))}
           
-          {/* Show upcoming upgrades (greyed out) */}
-          {upcomingUpgrades.slice(0, 3).map((upgrade) => (
-            <UpgradeItem key={upgrade.id} upgrade={upgrade} isAvailable={false} />
-          ))}
-          
           {/* Show already purchased upgrades */}
-          {availableUpgrades
+          {[...availableUpgrades, ...upcomingUpgrades]
             .filter(u => gameState.unlockedUpgrades.includes(u.id))
             .map((upgrade) => (
               <UpgradeItem key={upgrade.id} upgrade={upgrade} isAvailable={false} />

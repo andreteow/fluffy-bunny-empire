@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
@@ -20,7 +19,7 @@ const GameStats: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
   
-  // Calculate CPS (clicks per second) using a 5-second rolling window
+  // Calculate CPS (clicks per second) using a 2-second rolling window instead of 5
   useEffect(() => {
     // Only update when feedings change
     if (gameState.totalFeedings !== prevFeedingsRef.current) {
@@ -32,8 +31,8 @@ const GameStats: React.FC = () => {
         feedings: gameState.totalFeedings
       });
       
-      // Remove data points older than 5 seconds
-      const cutoffTime = now - 5000;
+      // Remove data points older than 2 seconds (changed from 5 seconds)
+      const cutoffTime = now - 2000;
       feedingHistoryRef.current = feedingHistoryRef.current.filter(
         point => point.time >= cutoffTime
       );
