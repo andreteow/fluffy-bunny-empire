@@ -16,24 +16,24 @@ const Index = () => {
 
   return (
     <GameProvider>
-      <div className="min-h-screen bg-bunny-light p-4 md:p-8 wavy-bg">
+      <div className="min-h-screen bg-white p-4 md:p-8">
         <header className="text-center mb-10 pt-14 md:pt-6 relative">
           <div className="absolute right-2 top-2 md:top-2 flex gap-2 z-20">
             <AboutPopup />
             <ResetButton />
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-bold text-clay animate-pulse-soft z-10 relative">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 z-10 relative">
             🐰 Bunny Clicker Game 🐰
           </h1>
-          <p className="text-clay text-lg mt-2 font-medium">
+          <p className="text-gray-600 text-lg mt-2">
             Click to feed, multiply, and take over the world!
           </p>
         </header>
         
         <div className="fixed bottom-4 left-4 z-50 lg:hidden">
           <Sheet open={statsOpen} onOpenChange={setStatsOpen}>
-            <SheetTrigger className="rounded-full bg-clay-pink p-3 text-white shadow-lg">
+            <SheetTrigger className="rounded-full bg-gray-800 p-3 text-white shadow-md">
               <BarChart2 className="h-6 w-6" />
             </SheetTrigger>
             <SheetContent side="bottom" className="h-[80vh] rounded-t-xl p-0 border-0">
@@ -61,7 +61,7 @@ const Index = () => {
           </div>
         </div>
         
-        <footer className="text-center text-clay-pink-dark text-sm mt-16">
+        <footer className="text-center text-gray-500 text-sm mt-16">
           <p>Bunny Clicker Game - Click, Feed, Multiply!</p>
         </footer>
 

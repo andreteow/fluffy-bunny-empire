@@ -27,6 +27,18 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
   const [gameState, setGameState] = useState<GameState>(loadSavedState());
   const { toast } = useToast();
 
+  // Update elapsed time
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setGameState(prev => ({
+        ...prev,
+        elapsedTime: prev.elapsedTime + 1
+      }));
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, []);
+
   // Save game state whenever it changes
   useEffect(() => {
     try {
