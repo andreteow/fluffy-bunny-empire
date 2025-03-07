@@ -1,4 +1,3 @@
-
 import { GameState } from './types';
 import { bunnyValue } from './gameUtils';
 import { ToastProps } from '@/components/ui/toast';
@@ -121,21 +120,28 @@ export const buyUpgrade = (
     return false;
   }
   
-  setGameState(prevState => {
-    const newState = {
+  // First, deduct the cost of the upgrade
+  setGameState(prevState => ({
+    ...prevState,
+    money: prevState.money - cost,
+  }));
+  
+  // Apply the upgrade effect
+  effect();
+  
+  // Now apply the upgradeId to the unlocked upgrades list if provided
+  if (upgradeId && !gameState.unlockedUpgrades.includes(upgradeId)) {
+    setGameState(prevState => ({
       ...prevState,
-      money: prevState.money - cost,
-    };
-    
-    // Add upgrade to unlocked upgrades if provided
-    if (upgradeId && !prevState.unlockedUpgrades.includes(upgradeId)) {
-      newState.unlockedUpgrades = [...prevState.unlockedUpgrades, upgradeId];
-    }
-    
-    return newState;
+      unlockedUpgrades: [...prevState.unlockedUpgrades, upgradeId]
+    }));
+  }
+  
+  toast({
+    title: "Upgrade purchased!",
+    description: "Your bunny empire grows stronger!",
   });
   
-  effect();
   return true;
 };
 

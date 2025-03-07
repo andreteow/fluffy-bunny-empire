@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
@@ -27,7 +28,7 @@ const BunnyUpgrades: React.FC = () => {
   
   const handleBuyUpgrade = (upgrade: Upgrade) => {
     // Create effect function based on the upgrade's category and effect
-    const safeEffectFn = () => {
+    const effectFn = () => {
       // Apply effects based on upgrade category
       if (upgrade.category === 'efficiency') {
         if (upgrade.id === 'bunny-enthusiasm') gameState.feedsPerClick += 1;
@@ -83,7 +84,13 @@ const BunnyUpgrades: React.FC = () => {
       }
     };
     
-    buyUpgrade(upgrade.cost, safeEffectFn);
+    // Pass only the cost and effectFn to buyUpgrade (not the upgradeId parameter)
+    const success = buyUpgrade(upgrade.cost, effectFn);
+    
+    // If purchase was successful, add the upgrade to unlockedUpgrades
+    if (success && !gameState.unlockedUpgrades.includes(upgrade.id)) {
+      gameState.unlockedUpgrades.push(upgrade.id);
+    }
   };
 
   // Helper function to render upgrade buttons
@@ -109,7 +116,7 @@ const BunnyUpgrades: React.FC = () => {
                 </div>
                 <span className="text-sm font-semibold">${formatNumber(upgrade.cost)}</span>
               </div>
-              <p className="text-xs text-muted-foreground mt-1">{upgrade.description} {upgrade.effect}</p>
+              <p className="text-xs text-muted-foreground mt-1 truncate">{upgrade.description} {upgrade.effect}</p>
             </Button>
           </TooltipTrigger>
           <TooltipContent>

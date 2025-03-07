@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { GameProvider } from '@/context/GameContext';
 import BunnyClicker from '@/components/BunnyClicker';
 import BunnyMarket from '@/components/BunnyMarket';
@@ -7,8 +7,12 @@ import BunnyUpgrades from '@/components/BunnyUpgrades';
 import GameStats from '@/components/GameStats';
 import AboutPopup from '@/components/AboutPopup';
 import ResetButton from '@/components/ResetButton';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { BarChart2 } from 'lucide-react';
 
 const Index = () => {
+  const [statsOpen, setStatsOpen] = useState(false);
+
   return (
     <GameProvider>
       <div className="min-h-screen bg-bunny-light p-4 md:p-8">
@@ -26,6 +30,19 @@ const Index = () => {
           </p>
         </header>
         
+        <div className="fixed bottom-4 right-4 z-50 lg:hidden">
+          <Sheet open={statsOpen} onOpenChange={setStatsOpen}>
+            <SheetTrigger className="rounded-full bg-bunny p-3 text-white shadow-lg">
+              <BarChart2 className="h-6 w-6" />
+            </SheetTrigger>
+            <SheetContent side="bottom" className="h-[80vh] rounded-t-xl p-0">
+              <div className="p-4 h-full overflow-y-auto">
+                <GameStats />
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+        
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main game area */}
           <div className="lg:col-span-2">
@@ -39,8 +56,8 @@ const Index = () => {
             </div>
           </div>
           
-          {/* Side panel */}
-          <div className="lg:col-span-1">
+          {/* Side panel - visible only on desktop */}
+          <div className="lg:col-span-1 hidden lg:block">
             <GameStats />
           </div>
         </div>

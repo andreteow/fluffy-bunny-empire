@@ -77,10 +77,10 @@ const GameStats: React.FC = () => {
   };
 
   return (
-    <Card className="p-4 bg-bunny-yellow bg-opacity-40 border-2 border-bunny-yellow rounded-xl">
-      <h3 className="text-xl font-bold mb-2">Stats</h3>
+    <Card className="p-4 bg-bunny-yellow bg-opacity-40 border-2 border-bunny-yellow rounded-xl h-full">
+      <h3 className="text-xl font-bold mb-4">Stats</h3>
       
-      <div className="space-y-1 text-sm">
+      <div className="space-y-2 text-sm">
         <div className="flex justify-between">
           <span>Total feedings:</span>
           <span className="font-semibold">{formatNumber(gameState.totalFeedings)}</span>

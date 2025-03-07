@@ -36,8 +36,8 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     sellBunniesAction(amount, gameState, setGameState, toast);
   }, [gameState, toast]);
 
-  const buyUpgrade = useCallback((cost: number, effect: () => void, upgradeId?: string): boolean => {
-    return buyUpgradeAction(cost, effect, gameState, setGameState, toast, upgradeId);
+  const buyUpgrade = useCallback((cost: number, effect: () => void): boolean => {
+    return buyUpgradeAction(cost, effect, gameState, setGameState, toast);
   }, [gameState, toast]);
 
   const resetGame = useCallback(() => {
