@@ -20,11 +20,11 @@ const BunnyClicker: React.FC = () => {
         Bunnies: {formatNumber(gameState.bunnies)}
       </h2>
       
-      <Card className="p-6 bg-bunny-pink bg-opacity-40 border-4 border-bunny-pink rounded-3xl shadow-lg mb-4 flex flex-col items-center">
-        <div 
-          className={`bunny-clicker cursor-pointer ${isHopping ? 'animate-hop' : ''}`}
-          onClick={handleClick}
-        >
+      <Card 
+        className="p-6 bg-bunny-pink bg-opacity-40 border-4 border-bunny-pink rounded-3xl shadow-lg mb-4 flex flex-col items-center cursor-pointer" 
+        onClick={handleClick}
+      >
+        <div className={`bunny-clicker ${isHopping ? 'animate-hop' : ''}`}>
           <div className="text-8xl mb-2">🐰</div>
         </div>
         <p className="text-lg font-semibold">Click to feed!</p>

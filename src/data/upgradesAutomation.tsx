@@ -8,14 +8,14 @@ export const automationUpgrades: Upgrade[] = [
     id: 'carrot-farming',
     name: 'Carrot Farming',
     description: 'Bunnies learn to grow their own carrots.',
-    effect: '+1 auto feed per second',
+    effect: '+2 auto feeds per second',
     cost: 100,
     icon: <Carrot className="h-5 w-5" />,
     category: 'automation',
     isAvailable: (state) => state.bunnies >= 10 && !state.unlockedUpgrades.includes('carrot-farming'),
     effectFn: function() {
       return function(gameState) {
-        gameState.autoFeedRate += 1;
+        gameState.autoFeedRate += 2;
       };
     },
     requiredBunnies: 10,
@@ -24,108 +24,108 @@ export const automationUpgrades: Upgrade[] = [
     id: 'smart-bunnies',
     name: 'Smart Bunnies',
     description: 'Bunnies develop higher intelligence.',
-    effect: '+2 auto feeds per second',
+    effect: '+4 auto feeds per second',
     cost: 500,
     icon: <Brain className="h-5 w-5" />,
     category: 'automation',
-    isAvailable: (state) => state.bunnies >= 50 && state.autoFeedRate >= 1 && state.unlockedUpgrades.includes('carrot-farming'),
+    isAvailable: (state) => state.bunnies >= 50 && state.autoFeedRate >= 2 && state.unlockedUpgrades.includes('carrot-farming'),
     effectFn: function() {
       return function(gameState) {
-        gameState.autoFeedRate += 2;
+        gameState.autoFeedRate += 4;
       };
     },
     requiredBunnies: 50,
-    requiredAutoFeedRate: 1,
+    requiredAutoFeedRate: 2,
     requiredUpgrade: 'carrot-farming',
   },
   {
     id: 'bunny-cooperation',
     name: 'Bunny Cooperation',
     description: 'Rabbits work together to feed each other.',
-    effect: '+5 auto feeds per second',
+    effect: '+8 auto feeds per second',
     cost: 2000,
     icon: <Rabbit className="h-5 w-5" />,
     category: 'automation',
-    isAvailable: (state) => state.bunnies >= 100 && state.autoFeedRate >= 3 && state.unlockedUpgrades.includes('smart-bunnies'),
+    isAvailable: (state) => state.bunnies >= 100 && state.autoFeedRate >= 6 && state.unlockedUpgrades.includes('smart-bunnies'),
     effectFn: function() {
       return function(gameState) {
-        gameState.autoFeedRate += 5;
+        gameState.autoFeedRate += 8;
       };
     },
     requiredBunnies: 100,
-    requiredAutoFeedRate: 3,
+    requiredAutoFeedRate: 6,
     requiredUpgrade: 'smart-bunnies',
   },
   {
     id: 'robo-feeders',
     name: 'Robo-Feeders',
     description: 'Automated feeding machines.',
-    effect: '+10 auto feeds per second',
+    effect: '+16 auto feeds per second',
     cost: 10000,
     icon: <Bot className="h-5 w-5" />,
     category: 'automation',
-    isAvailable: (state) => state.bunnies >= 200 && state.autoFeedRate >= 8 && state.unlockedUpgrades.includes('bunny-cooperation'),
+    isAvailable: (state) => state.bunnies >= 200 && state.autoFeedRate >= 14 && state.unlockedUpgrades.includes('bunny-cooperation'),
     effectFn: function() {
       return function(gameState) {
-        gameState.autoFeedRate += 10;
+        gameState.autoFeedRate += 16;
       };
     },
     requiredBunnies: 200,
-    requiredAutoFeedRate: 8,
+    requiredAutoFeedRate: 14,
     requiredUpgrade: 'bunny-cooperation',
   },
   {
     id: 'carrot-factory',
     name: 'Carrot Factory',
     description: 'Industrial-scale carrot farming begins.',
-    effect: '+25 auto feeds per second',
+    effect: '+32 auto feeds per second',
     cost: 50000,
     icon: <Carrot className="h-5 w-5" />,
     category: 'automation',
-    isAvailable: (state) => state.bunnies >= 500 && state.autoFeedRate >= 18 && state.unlockedUpgrades.includes('robo-feeders'),
+    isAvailable: (state) => state.bunnies >= 500 && state.autoFeedRate >= 30 && state.unlockedUpgrades.includes('robo-feeders'),
     effectFn: function() {
       return function(gameState) {
-        gameState.autoFeedRate += 25;
+        gameState.autoFeedRate += 32;
       };
     },
     requiredBunnies: 500,
-    requiredAutoFeedRate: 18,
+    requiredAutoFeedRate: 30,
     requiredUpgrade: 'robo-feeders',
   },
   {
     id: 'bunny-ai',
     name: 'Bunny AI',
     description: 'AI-driven carrot distribution system optimizes feeding.',
-    effect: '+50 auto feeds per second',
+    effect: '+64 auto feeds per second',
     cost: 250000,
     icon: <Brain className="h-5 w-5" />,
     category: 'automation',
-    isAvailable: (state) => state.bunnies >= 1000 && state.autoFeedRate >= 43 && state.unlockedUpgrades.includes('carrot-factory'),
+    isAvailable: (state) => state.bunnies >= 1000 && state.autoFeedRate >= 62 && state.unlockedUpgrades.includes('carrot-factory'),
     effectFn: function() {
       return function(gameState) {
-        gameState.autoFeedRate += 50;
+        gameState.autoFeedRate += 64;
       };
     },
     requiredBunnies: 1000,
-    requiredAutoFeedRate: 43,
+    requiredAutoFeedRate: 62,
     requiredUpgrade: 'carrot-factory',
   },
   {
     id: 'self-sustaining-bunnies',
     name: 'Self-Sustaining Bunnies',
     description: 'Rabbits achieve total independence.',
-    effect: '+100 auto feeds per second',
+    effect: '+128 auto feeds per second',
     cost: 1000000,
     icon: <Rabbit className="h-5 w-5" />,
     category: 'automation',
-    isAvailable: (state) => state.bunnies >= 5000 && state.autoFeedRate >= 93 && state.unlockedUpgrades.includes('bunny-ai'),
+    isAvailable: (state) => state.bunnies >= 5000 && state.autoFeedRate >= 126 && state.unlockedUpgrades.includes('bunny-ai'),
     effectFn: function() {
       return function(gameState) {
-        gameState.autoFeedRate += 100;
+        gameState.autoFeedRate += 128;
       };
     },
     requiredBunnies: 5000,
-    requiredAutoFeedRate: 93,
+    requiredAutoFeedRate: 126,
     requiredUpgrade: 'bunny-ai',
   },
 ];

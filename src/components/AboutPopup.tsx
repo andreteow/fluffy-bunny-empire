@@ -27,50 +27,43 @@ const AboutPopup: React.FC = () => {
       </DialogTrigger>
       <DialogContent className="max-w-[90vw] md:max-w-[500px] max-h-[80vh] flex flex-col">
         <DialogHeader>
-          <DialogTitle className="text-2xl">About Bunny Clicker Game</DialogTitle>
+          <DialogTitle className="text-2xl">How to Play Bunny Clicker</DialogTitle>
           <DialogDescription>
-            How to play and game mechanics
+            A fun game about growing your bunny family!
           </DialogDescription>
         </DialogHeader>
         
         <ScrollArea className="flex-1 pr-4">
           <div className="space-y-4">
             <section>
-              <h3 className="text-lg font-semibold">🐰 Basic Gameplay</h3>
-              <p>Click to feed your bunnies. When they've eaten enough food, they'll multiply!</p>
-              <p className="mt-2">Each multiplication requires more food than the last, but results in twice as many bunnies!</p>
+              <h3 className="text-lg font-semibold">🐰 How to Play</h3>
+              <p>Click on the bunny to feed it! When your bunny eats enough food, it makes new baby bunnies!</p>
+              <p className="mt-2">Each time your bunnies have babies, you'll need more food for the next time.</p>
             </section>
             
             <section>
-              <h3 className="text-lg font-semibold">💰 Bunny Market</h3>
-              <p>Sell your bunnies for money in the Bunny Market. The market price fluctuates between:</p>
-              <ul className="list-disc ml-5 mt-1">
-                <li><span className="font-semibold text-green-500">High Demand</span>: Double prices!</li>
-                <li><span className="font-semibold text-yellow-500">Normal Demand</span>: Regular prices</li>
-                <li><span className="font-semibold text-red-500">Low Demand</span>: Half prices</li>
-              </ul>
-              <p className="mt-2">Each bunny has a random quality: Low (60%), Mid (30%), or High (10%), which affects its value.</p>
-              <p className="mt-2 italic">Note: You must always keep at least 1 bunny!</p>
+              <h3 className="text-lg font-semibold">💰 Selling Bunnies</h3>
+              <p>You can sell some of your bunnies to get money. But remember - keep at least one bunny!</p>
+              <p className="mt-2">Sometimes people will pay more for your bunnies (High Demand), and sometimes less (Low Demand). Try to sell when the price is high!</p>
             </section>
             
             <section>
-              <h3 className="text-lg font-semibold">⚙️ Upgrades</h3>
-              <p>Use your money to purchase upgrades that automate feeding:</p>
+              <h3 className="text-lg font-semibold">⚙️ Cool Upgrades</h3>
+              <p>Use your money to buy special upgrades that make your bunnies happier and help them make more babies!</p>
               <ul className="list-disc ml-5 mt-1">
-                <li>Carrot Farming: Bunnies learn to grow carrots (+1 feed/second)</li>
-                <li>Smart Bunnies: Higher bunny intelligence (+2 feed/second)</li>
-                <li>Robo-Feeders: Automated feeding machines (+5 feed/second)</li>
+                <li>Bunny Feeding - makes each click give more food</li>
+                <li>Auto Feeding - bunnies learn to feed themselves!</li>
               </ul>
             </section>
             
             <section>
               <h3 className="text-lg font-semibold">🎯 Game Goal</h3>
-              <p>Reach 100 billion bunnies to take over the world! Keep growing your bunny population exponentially through feeding, multiplication, and automation.</p>
+              <p>Try to get 10 bunnies to win the game! Can you take over the world with your bunny family?</p>
             </section>
 
             <section>
-              <h3 className="text-lg font-semibold">💾 Game Data</h3>
-              <p>Your game progress is saved in your browser. If you want to start over, use the Reset button.</p>
+              <h3 className="text-lg font-semibold">💾 Starting Over</h3>
+              <p>If you want to start a new game, press the reset button at the top of the screen.</p>
             </section>
           </div>
         </ScrollArea>

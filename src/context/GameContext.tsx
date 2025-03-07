@@ -1,15 +1,40 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+
+import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
 import { useToast } from "@/components/ui/use-toast";
 import { GameState, GameContextType, initialGameState } from './types';
 import { formatNumber, getProgressPercentage, marketPriceMultiplier, bunnyValue as calculateBunnyValue } from './gameUtils';
 import { feedBunny as feedBunnyAction, sellBunnies as sellBunniesAction, buyUpgrade as buyUpgradeAction, resetGame as resetGameAction } from './gameActions';
 import { useMarketDemandCycle, useAutoFeed } from './gameEffects';
 
+const STORAGE_KEY = 'bunnyClickerGameState';
+
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export const GameProvider = ({ children }: { children: ReactNode }) => {
-  const [gameState, setGameState] = useState<GameState>(initialGameState);
+  // Load saved game state or use initial state
+  const loadSavedState = (): GameState => {
+    try {
+      const savedState = localStorage.getItem(STORAGE_KEY);
+      if (savedState) {
+        return JSON.parse(savedState);
+      }
+    } catch (error) {
+      console.error('Error loading saved game:', error);
+    }
+    return initialGameState;
+  };
+
+  const [gameState, setGameState] = useState<GameState>(loadSavedState());
   const { toast } = useToast();
+
+  // Save game state whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
+    } catch (error) {
+      console.error('Error saving game state:', error);
+    }
+  }, [gameState]);
 
   const getProgressPercentageCallback = useCallback(() => {
     return getProgressPercentage(gameState.food, gameState.feedingsForNextMultiplication);
@@ -37,6 +62,8 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
   const resetGame = useCallback(() => {
     resetGameAction(initialGameState, setGameState, toast);
+    // Also clear localStorage when resetting
+    localStorage.removeItem(STORAGE_KEY);
   }, [toast]);
 
   useMarketDemandCycle(setGameState, toast);

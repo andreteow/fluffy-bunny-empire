@@ -158,7 +158,25 @@ export const resetGame = (
   toast: ToastFunction
 ) => {
   // Create a fresh copy of the initial state to ensure complete reset
-  const freshInitialState = JSON.parse(JSON.stringify(initialState));
+  const freshInitialState: GameState = {
+    bunnies: 1,
+    food: 0,
+    feedingsForNextMultiplication: 10,
+    totalFeedings: 0,
+    money: 0,
+    multiplier: 1,
+    marketDemand: 'normal',
+    marketTimer: 30,
+    autoFeedRate: 0,
+    feedsPerClick: 1,
+    marketDemandDuration: 30,
+    highValueChance: 0.1,
+    midValueChance: 0.3,
+    highDemandChance: 0.1,
+    rarityValueMultiplier: 1,
+    highValueMultiplier: 1,
+    unlockedUpgrades: [],
+  };
   
   // Reset to initial state - this ensures all upgrades, effects, and counters are reset
   setGameState(freshInitialState);

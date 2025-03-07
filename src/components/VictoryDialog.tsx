@@ -35,7 +35,7 @@ const VictoryDialog: React.FC = () => {
 
   useEffect(() => {
     // Check for victory condition
-    if (gameState.bunnies >= 1000) {
+    if (gameState.bunnies >= 10) {
       setOpen(true);
     } else {
       setOpen(false);
@@ -57,7 +57,7 @@ const VictoryDialog: React.FC = () => {
             <PartyPopper className="h-6 w-6 text-yellow-500" />
           </DialogTitle>
           <DialogDescription className="text-center">
-            You've reached 1000 bunnies and taken over the world!
+            You've reached 10 bunnies and taken over the world!
           </DialogDescription>
         </DialogHeader>
 
