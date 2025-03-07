@@ -111,6 +111,7 @@ export const buyUpgrade = (
   toast: ToastFunction,
   upgradeId?: string
 ): boolean => {
+  // Check if user has enough money
   if (gameState.money < cost) {
     toast({
       title: "Not enough money",
@@ -120,22 +121,18 @@ export const buyUpgrade = (
     return false;
   }
   
-  // First, deduct the cost of the upgrade
-  setGameState(prevState => ({
-    ...prevState,
-    money: prevState.money - cost,
-  }));
+  // First create a copy of the current state
+  const newState = { ...gameState };
   
-  // Apply the upgrade effect
+  // Deduct the cost of the upgrade
+  newState.money = newState.money - cost;
+  
+  // Apply the upgrade effect by calling the function 
+  // (this modifies the newState directly inside the effect function)
   effect();
   
-  // Now apply the upgradeId to the unlocked upgrades list if provided
-  if (upgradeId && !gameState.unlockedUpgrades.includes(upgradeId)) {
-    setGameState(prevState => ({
-      ...prevState,
-      unlockedUpgrades: [...prevState.unlockedUpgrades, upgradeId]
-    }));
-  }
+  // Update the state with all changes
+  setGameState(newState);
   
   toast({
     title: "Upgrade purchased!",

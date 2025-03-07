@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
-import { Clock, Activity, Zap, BarChart3 } from 'lucide-react';
+import { Clock, Zap, BarChart3 } from 'lucide-react';
 
 const GameStats: React.FC = () => {
   const { gameState, formatNumber } = useGame();
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [cps, setCps] = useState(0);
-  const prevFeedingsRef = useRef(gameState.totalFeedings);
-  const feedingHistoryRef = useRef<{time: number, feedings: number}[]>([]);
   
   // Update elapsed time
   useEffect(() => {
@@ -18,41 +16,6 @@ const GameStats: React.FC = () => {
     
     return () => clearInterval(timer);
   }, []);
-  
-  // Calculate CPS (clicks per second) using a 2-second rolling window instead of 5
-  useEffect(() => {
-    // Only update when feedings change
-    if (gameState.totalFeedings !== prevFeedingsRef.current) {
-      const now = Date.now();
-      
-      // Add current data point
-      feedingHistoryRef.current.push({
-        time: now,
-        feedings: gameState.totalFeedings
-      });
-      
-      // Remove data points older than 2 seconds (changed from 5 seconds)
-      const cutoffTime = now - 2000;
-      feedingHistoryRef.current = feedingHistoryRef.current.filter(
-        point => point.time >= cutoffTime
-      );
-      
-      // Calculate CPS if we have at least 2 data points
-      if (feedingHistoryRef.current.length >= 2) {
-        const oldest = feedingHistoryRef.current[0];
-        const newest = feedingHistoryRef.current[feedingHistoryRef.current.length - 1];
-        
-        const feedingsDelta = newest.feedings - oldest.feedings;
-        const timeDeltaSeconds = (newest.time - oldest.time) / 1000;
-        
-        if (timeDeltaSeconds > 0) {
-          setCps(Math.round(feedingsDelta / timeDeltaSeconds));
-        }
-      }
-      
-      prevFeedingsRef.current = gameState.totalFeedings;
-    }
-  }, [gameState.totalFeedings]);
   
   // Format time as HH:MM:SS
   const formatTime = (seconds: number): string => {
@@ -115,13 +78,6 @@ const GameStats: React.FC = () => {
             <Clock className="h-4 w-4" /> Elapsed time:
           </span>
           <span className="font-semibold">{formatTime(elapsedTime)}</span>
-        </div>
-        
-        <div className="flex justify-between items-center">
-          <span className="flex items-center gap-1">
-            <Activity className="h-4 w-4" /> Current CPS:
-          </span>
-          <span className="font-semibold">{cps}/sec</span>
         </div>
         
         <div className="flex justify-between items-center">
