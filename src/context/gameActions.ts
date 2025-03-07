@@ -176,6 +176,7 @@ export const resetGame = (
     rarityValueMultiplier: 1,
     highValueMultiplier: 1,
     unlockedUpgrades: [],
+    elapsedTime: 0,
   };
   
   // Reset to initial state - this ensures all upgrades, effects, and counters are reset
