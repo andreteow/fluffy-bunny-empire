@@ -17,6 +17,7 @@ export interface GameState {
   rarityValueMultiplier: number;
   highValueMultiplier: number;
   unlockedUpgrades: string[];
+  elapsedTime: number;
 }
 
 export interface GameContextType {
@@ -49,6 +50,7 @@ export const initialGameState: GameState = {
   rarityValueMultiplier: 1,
   highValueMultiplier: 1,
   unlockedUpgrades: [],
+  elapsedTime: 0,
 };
 
 export interface Upgrade {
