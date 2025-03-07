@@ -30,12 +30,12 @@ const Confetti: React.FC = () => {
 };
 
 const VictoryDialog: React.FC = () => {
-  const { gameState, resetGame } = useGame();
+  const { gameState } = useGame();
   const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
-    // Check for victory condition
-    if (gameState.bunnies >= 10) {
+    // Check for victory condition - now 100 bunnies instead of 10
+    if (gameState.bunnies >= 100) {
       setOpen(true);
     } else {
       setOpen(false);
@@ -43,7 +43,7 @@ const VictoryDialog: React.FC = () => {
   }, [gameState.bunnies]);
 
   const handleNewGame = () => {
-    resetGame();
+    // Just close the dialog without resetting the game
     setOpen(false);
   };
 
@@ -57,7 +57,7 @@ const VictoryDialog: React.FC = () => {
             <PartyPopper className="h-6 w-6 text-yellow-500" />
           </DialogTitle>
           <DialogDescription className="text-center">
-            You've reached 10 bunnies and taken over the world!
+            You've reached 100 bunnies and taken over the world!
           </DialogDescription>
         </DialogHeader>
 
@@ -72,7 +72,7 @@ const VictoryDialog: React.FC = () => {
             onClick={handleNewGame}
           >
             <PartyPopper className="mr-2 h-4 w-4" />
-            Start New Game
+            Continue Playing
           </Button>
         </div>
 

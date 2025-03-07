@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
@@ -158,16 +157,6 @@ const BunnyMarket: React.FC = () => {
         </div>
         {gameState.bunnies > 1 && (
           <p className="text-xs text-gray-500 mt-1">*Keeps 1 bunny minimum</p>
-        )}
-      </div>
-      
-      <div className="text-xs text-gray-600 mt-2 p-2 bg-white bg-opacity-50 rounded-md">
-        <p>Bunny quality: {(gameState.highValueChance * 100).toFixed(0)}% high-value, {(gameState.midValueChance * 100).toFixed(0)}% mid-value</p>
-        {gameState.rarityValueMultiplier > 1 && (
-          <p>Mid/High value bonus: {((gameState.rarityValueMultiplier - 1) * 100).toFixed(0)}%</p>
-        )}
-        {gameState.highValueMultiplier > 1 && (
-          <p>High value multiplier: ×{gameState.highValueMultiplier.toFixed(1)}</p>
         )}
       </div>
     </Card>

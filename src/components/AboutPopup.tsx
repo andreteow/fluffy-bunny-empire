@@ -25,7 +25,7 @@ const AboutPopup: React.FC = () => {
           <HelpCircle className="h-5 w-5" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[90vw] md:max-w-[500px] max-h-[80vh] flex flex-col">
+      <DialogContent className="max-w-[90vw] md:max-w-[500px] max-h-[80vh] overflow-hidden">
         <DialogHeader>
           <DialogTitle className="text-2xl">How to Play Bunny Clicker</DialogTitle>
           <DialogDescription>
@@ -33,8 +33,8 @@ const AboutPopup: React.FC = () => {
           </DialogDescription>
         </DialogHeader>
         
-        <ScrollArea className="flex-1 pr-4">
-          <div className="space-y-4">
+        <ScrollArea className="h-[50vh] pr-4">
+          <div className="space-y-4 p-1">
             <section>
               <h3 className="text-lg font-semibold">🐰 How to Play</h3>
               <p>Click on the bunny to feed it! When your bunny eats enough food, it makes new baby bunnies!</p>
@@ -58,7 +58,7 @@ const AboutPopup: React.FC = () => {
             
             <section>
               <h3 className="text-lg font-semibold">🎯 Game Goal</h3>
-              <p>Try to get 10 bunnies to win the game! Can you take over the world with your bunny family?</p>
+              <p>Try to get 100 bunnies to win the game! Can you take over the world with your bunny family?</p>
             </section>
 
             <section>

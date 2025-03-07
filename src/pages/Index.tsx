@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { GameProvider } from '@/context/GameContext';
 import BunnyClicker from '@/components/BunnyClicker';
@@ -30,7 +31,7 @@ const Index = () => {
           </p>
         </header>
         
-        <div className="fixed bottom-4 right-4 z-50 lg:hidden">
+        <div className="fixed bottom-4 left-4 z-50 lg:hidden">
           <Sheet open={statsOpen} onOpenChange={setStatsOpen}>
             <SheetTrigger className="rounded-full bg-bunny p-3 text-white shadow-lg">
               <BarChart2 className="h-6 w-6" />
