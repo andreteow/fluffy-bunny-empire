@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,21 +10,37 @@ const BunnyMarket: React.FC = () => {
   const { gameState, sellBunnies, formatNumber, bunnyValue, marketPriceMultiplier } = useGame();
   const [sellAmount, setSellAmount] = useState<number>(1);
 
+  useEffect(() => {
+    if (gameState.bunnies <= 1) {
+      setSellAmount(0);
+    } else if (sellAmount >= gameState.bunnies) {
+      setSellAmount(gameState.bunnies - 1); // Keep at least 1 bunny
+    }
+  }, [gameState.bunnies, sellAmount]);
+
   const handleSellAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    setSellAmount(isNaN(value) || value < 1 ? 1 : Math.min(value, gameState.bunnies));
+    if (isNaN(value) || value < 0) {
+      setSellAmount(0);
+    } else {
+      // Ensure we keep at least 1 bunny
+      setSellAmount(Math.min(value, gameState.bunnies - 1));
+    }
   };
 
   const handleSell = () => {
-    sellBunnies(sellAmount);
+    if (sellAmount > 0) {
+      sellBunnies(sellAmount);
+    }
   };
 
   const handleQuickSell = (percentage: number) => {
-    const amount = Math.max(1, Math.floor(gameState.bunnies * (percentage / 100)));
+    if (gameState.bunnies <= 1) return;
+    
+    const amount = Math.max(1, Math.floor((gameState.bunnies - 1) * (percentage / 100)));
     sellBunnies(amount);
   };
 
-  // Calculate estimated earnings
   const estimateEarnings = () => {
     const lowValue = bunnyValue('low') * sellAmount * 0.6;
     const midValue = bunnyValue('mid') * sellAmount * 0.3;
@@ -33,7 +48,6 @@ const BunnyMarket: React.FC = () => {
     return Math.floor(lowValue + midValue + highValue);
   };
 
-  // Return market status icon
   const getMarketIcon = () => {
     switch (gameState.marketDemand) {
       case 'high': return <TrendingUp className="h-5 w-5 text-green-500" />;
@@ -42,7 +56,6 @@ const BunnyMarket: React.FC = () => {
     }
   };
 
-  // Get market status color
   const getMarketStatusColor = () => {
     switch (gameState.marketDemand) {
       case 'high': return 'text-green-500';
@@ -50,6 +63,8 @@ const BunnyMarket: React.FC = () => {
       default: return 'text-yellow-500';
     }
   };
+
+  const canSell = gameState.bunnies > 1 && sellAmount > 0;
 
   return (
     <Card className="p-4 bg-bunny-blue bg-opacity-40 border-2 border-bunny-blue rounded-xl">
@@ -79,31 +94,37 @@ const BunnyMarket: React.FC = () => {
           </span>
         </div>
         
-        <div className="flex gap-4 mb-4">
-          <div className="flex-1">
-            <Label htmlFor="sellAmount">Amount to sell:</Label>
-            <Input
-              id="sellAmount"
-              type="number"
-              min={1}
-              max={gameState.bunnies}
-              value={sellAmount}
-              onChange={handleSellAmountChange}
-              className="bg-white"
-            />
+        {gameState.bunnies <= 1 ? (
+          <div className="p-3 mb-4 bg-amber-50 border border-amber-200 rounded-md text-sm text-amber-700">
+            You must keep at least 1 bunny at all times! Get more bunnies to sell.
           </div>
-          <div className="flex-1">
-            <Label>Estimated earnings:</Label>
-            <div className="h-10 flex items-center font-semibold">
-              ${formatNumber(estimateEarnings())}
+        ) : (
+          <div className="flex gap-4 mb-4">
+            <div className="flex-1">
+              <Label htmlFor="sellAmount">Amount to sell:</Label>
+              <Input
+                id="sellAmount"
+                type="number"
+                min={0}
+                max={gameState.bunnies - 1}
+                value={sellAmount}
+                onChange={handleSellAmountChange}
+                className="bg-white"
+              />
+            </div>
+            <div className="flex-1">
+              <Label>Estimated earnings:</Label>
+              <div className="h-10 flex items-center font-semibold">
+                ${formatNumber(estimateEarnings())}
+              </div>
             </div>
           </div>
-        </div>
+        )}
         
         <Button 
           onClick={handleSell} 
           className="w-full mb-2 bg-bunny hover:bg-bunny-dark"
-          disabled={gameState.bunnies < 1}
+          disabled={!canSell}
         >
           Sell {sellAmount} {sellAmount === 1 ? 'Bunny' : 'Bunnies'}
         </Button>
@@ -112,7 +133,7 @@ const BunnyMarket: React.FC = () => {
           <Button 
             variant="outline" 
             onClick={() => handleQuickSell(10)}
-            disabled={gameState.bunnies < 10}
+            disabled={gameState.bunnies <= 1}
             className="text-xs"
           >
             Sell 10%
@@ -120,7 +141,7 @@ const BunnyMarket: React.FC = () => {
           <Button 
             variant="outline" 
             onClick={() => handleQuickSell(50)}
-            disabled={gameState.bunnies < 2}
+            disabled={gameState.bunnies <= 1}
             className="text-xs"
           >
             Sell 50%
@@ -128,12 +149,15 @@ const BunnyMarket: React.FC = () => {
           <Button 
             variant="outline" 
             onClick={() => handleQuickSell(100)}
-            disabled={gameState.bunnies < 1}
+            disabled={gameState.bunnies <= 1}
             className="text-xs"
           >
-            Sell All
+            Sell All*
           </Button>
         </div>
+        {gameState.bunnies > 1 && (
+          <p className="text-xs text-gray-500 mt-1">*Keeps 1 bunny minimum</p>
+        )}
       </div>
     </Card>
   );

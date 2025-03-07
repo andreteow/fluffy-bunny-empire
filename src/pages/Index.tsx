@@ -5,12 +5,19 @@ import BunnyClicker from '@/components/BunnyClicker';
 import BunnyMarket from '@/components/BunnyMarket';
 import BunnyUpgrades from '@/components/BunnyUpgrades';
 import GameStats from '@/components/GameStats';
+import AboutPopup from '@/components/AboutPopup';
+import ResetButton from '@/components/ResetButton';
 
 const Index = () => {
   return (
     <GameProvider>
       <div className="min-h-screen bg-bunny-light p-4 md:p-8">
-        <header className="text-center mb-8">
+        <header className="text-center mb-8 relative">
+          <div className="absolute right-2 top-2 flex gap-2">
+            <AboutPopup />
+            <ResetButton />
+          </div>
+          
           <h1 className="text-4xl font-bold text-bunny animate-pulse-soft">
             🐰 Bunny Clicker Game 🐰
           </h1>

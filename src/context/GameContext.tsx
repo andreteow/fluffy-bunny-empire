@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useToast } from "@/components/ui/use-toast";
 
@@ -25,6 +24,7 @@ interface GameContextType {
   getProgressPercentage: () => number;
   marketPriceMultiplier: () => number;
   bunnyValue: (tier: 'low' | 'mid' | 'high') => number;
+  resetGame: () => void;
 }
 
 // Initial game state
@@ -123,7 +123,21 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
   // Handle selling bunnies
   const sellBunnies = (amount: number) => {
-    if (amount <= 0 || amount > gameState.bunnies) return;
+    // Check for minimum 1 bunny requirement
+    if (amount <= 0 || amount >= gameState.bunnies) {
+      // Always keep at least 1 bunny
+      if (gameState.bunnies <= 1) {
+        toast({
+          title: "Cannot sell bunnies",
+          description: "You must keep at least 1 bunny at all times!",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      // If trying to sell all, adjust to sell all except one
+      amount = gameState.bunnies - 1;
+    }
     
     // Calculate money earned (random tier distribution)
     let moneyEarned = 0;
@@ -170,6 +184,15 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     
     effect();
     return true;
+  };
+
+  // Reset game to initial state
+  const resetGame = () => {
+    setGameState(initialGameState);
+    toast({
+      title: "Game Reset",
+      description: "Your game has been reset to the beginning.",
+    });
   };
 
   // Market demand cycle (changes every 30 seconds)
@@ -243,6 +266,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
         getProgressPercentage,
         marketPriceMultiplier,
         bunnyValue,
+        resetGame,
       }}
     >
       {children}
