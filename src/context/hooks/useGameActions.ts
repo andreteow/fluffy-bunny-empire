@@ -49,6 +49,11 @@ export const useGameActions = (
       highValueMultiplier: 1,
       unlockedUpgrades: [],
       elapsedTime: 0,
+      bunnyTypes: {
+        low: 1,
+        mid: 0,
+        high: 0
+      }
     };
     
     resetGameAction(initialGameState, setGameState, toast);
