@@ -70,8 +70,9 @@ const Index = () => {
         {/* Victory Dialog */}
         <VictoryDialog />
 
-        {/* Add confetti animation styles */}
-        <style jsx global>{`
+        {/* Add confetti animation styles - fix the style tag */}
+        <style>
+          {`
           @keyframes fall {
             0% {
               transform: translateY(0) rotate(0deg);
@@ -95,7 +96,8 @@ const Index = () => {
           .animate-fall {
             animation: fall 3s linear forwards;
           }
-        `}</style>
+          `}
+        </style>
       </div>
     </GameProvider>
   );
