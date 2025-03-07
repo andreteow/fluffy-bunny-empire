@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Trophy, Calendar, Clock, List, Loader2 } from 'lucide-react';
@@ -9,7 +9,35 @@ import { Card } from '@/components/ui/card';
 
 const LeaderboardDrawer: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const { leaderboard, isLeaderboardLoading } = useGame();
+  const { leaderboard, isLeaderboardLoading, addLeaderboardEntry } = useGame();
+
+  // Add dummy data on component mount
+  useEffect(() => {
+    const populateDummyData = async () => {
+      if (leaderboard.length === 0 && !isLeaderboardLoading) {
+        const dummyData = [
+          { name: "BunnyMaster", time: 1200, timestamp: Date.now() - 86400000 * 2 },
+          { name: "CarrotKing", time: 1450, timestamp: Date.now() - 86400000 * 1 },
+          { name: "FuzzyHopper", time: 1580, timestamp: Date.now() - 86400000 * 3 },
+          { name: "BunLover", time: 1700, timestamp: Date.now() },
+          { name: "FluffyEars", time: 1850, timestamp: Date.now() },
+          { name: "RabbitRacer", time: 1920, timestamp: Date.now() - 86400000 * 4 },
+          { name: "HareSpeed", time: 2100, timestamp: Date.now() },
+          { name: "BunnyBooster", time: 2250, timestamp: Date.now() - 86400000 * 5 },
+          { name: "HoppyWinner", time: 2400, timestamp: Date.now() },
+          { name: "JumpingJack", time: 2550, timestamp: Date.now() - 86400000 * 2 },
+          { name: "CarrotChaser", time: 2700, timestamp: Date.now() }
+        ];
+
+        // Add dummy entries one by one
+        for (const entry of dummyData) {
+          await addLeaderboardEntry(entry.name, entry.time);
+        }
+      }
+    };
+
+    populateDummyData();
+  }, [leaderboard.length, isLeaderboardLoading, addLeaderboardEntry]);
 
   // Format time as HH:MM:SS
   const formatTime = (seconds: number): string => {
@@ -40,7 +68,7 @@ const LeaderboardDrawer: React.FC = () => {
         <Button 
           size="icon" 
           variant="outline" 
-          className="fixed bottom-4 right-4 z-50 rounded-full h-12 w-12 shadow-md bg-white border-gray-200"
+          className="fixed bottom-16 left-4 z-50 rounded-full h-12 w-12 shadow-md bg-white border-gray-200"
         >
           <Trophy className="h-5 w-5 text-amber-500" />
         </Button>

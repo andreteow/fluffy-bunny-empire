@@ -45,6 +45,8 @@ const Index = () => {
           </Sheet>
         </div>
         
+        <LeaderboardDrawer />
+        
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             <div className="mb-8">
@@ -67,7 +69,6 @@ const Index = () => {
         </footer>
 
         <VictoryDialog />
-        <LeaderboardDrawer />
       </div>
     </GameProvider>
   );
