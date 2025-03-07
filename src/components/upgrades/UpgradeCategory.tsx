@@ -3,15 +3,16 @@ import React from 'react';
 import { TabsContent } from '@/components/ui/tabs';
 import { Upgrade, GameState } from '@/context/types';
 import UpgradeItem from './UpgradeItem';
+import { UpgradeCategory } from '@/hooks/useUpgrades';
 
-interface UpgradeCategoryProps {
-  category: 'efficiency' | 'automation' | 'market' | 'rarity';
+interface UpgradeCategoryTabProps {
+  category: UpgradeCategory;
   availableUpgrades: Upgrade[];
   upcomingUpgrades: Upgrade[];
   gameState: GameState;
 }
 
-const UpgradeCategory: React.FC<UpgradeCategoryProps> = ({
+const UpgradeCategoryTab: React.FC<UpgradeCategoryTabProps> = ({
   category,
   availableUpgrades,
   upcomingUpgrades,
@@ -49,4 +50,4 @@ const UpgradeCategory: React.FC<UpgradeCategoryProps> = ({
   );
 };
 
-export default UpgradeCategory;
+export default UpgradeCategoryTab;

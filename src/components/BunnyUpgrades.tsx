@@ -4,7 +4,7 @@ import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUpgrades, UpgradeCategory } from '@/hooks/useUpgrades';
-import UpgradeCategory from './upgrades/UpgradeCategory';
+import UpgradeCategoryTab from './upgrades/UpgradeCategory';
 
 const BunnyUpgrades: React.FC = () => {
   const { gameState } = useGame();
@@ -25,7 +25,7 @@ const BunnyUpgrades: React.FC = () => {
         </TabsList>
         
         {['efficiency', 'automation', 'market', 'rarity'].map((category) => (
-          <UpgradeCategory 
+          <UpgradeCategoryTab 
             key={category}
             category={category as UpgradeCategory}
             availableUpgrades={availableUpgrades}
