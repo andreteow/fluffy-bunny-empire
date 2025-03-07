@@ -158,7 +158,7 @@ export const resetGame = (
   toast: ToastFunction
 ) => {
   // Create a fresh copy of the initial state to ensure complete reset
-  const freshInitialState = { ...initialState };
+  const freshInitialState = JSON.parse(JSON.stringify(initialState));
   
   // Reset to initial state - this ensures all upgrades, effects, and counters are reset
   setGameState(freshInitialState);
