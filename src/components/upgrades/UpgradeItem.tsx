@@ -75,7 +75,7 @@ const UpgradeItem: React.FC<UpgradeItemProps> = ({ upgrade, isAvailable }) => {
     };
     
     // Pass the upgrade ID and effectFn to buyUpgrade
-    const success = buyUpgrade(upgrade.cost, effectFn);
+    const success = buyUpgrade(upgrade.cost, effectFn, upgrade.id);
     
     // If purchase was successful, add the upgrade to unlockedUpgrades
     if (success && !gameState.unlockedUpgrades.includes(upgrade.id)) {
@@ -101,7 +101,7 @@ const UpgradeItem: React.FC<UpgradeItemProps> = ({ upgrade, isAvailable }) => {
               </div>
               <span className="text-sm font-semibold">${formatNumber(upgrade.cost)}</span>
             </div>
-            <p className="text-xs text-muted-foreground mt-1 line-clamp-2 text-left">{upgrade.description} {upgrade.effect}</p>
+            <p className="text-xs text-muted-foreground mt-1 line-clamp-2 text-left w-full truncate whitespace-normal">{upgrade.description} {upgrade.effect}</p>
           </Button>
         </TooltipTrigger>
         <TooltipContent>

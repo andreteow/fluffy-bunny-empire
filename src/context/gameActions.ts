@@ -1,3 +1,4 @@
+
 import { GameState } from './types';
 import { bunnyValue } from './gameUtils';
 import { ToastProps } from '@/components/ui/toast';
@@ -121,15 +122,20 @@ export const buyUpgrade = (
     return false;
   }
   
-  // First create a copy of the current state
+  // Create a copy of the current state to modify
   const newState = { ...gameState };
   
   // Deduct the cost of the upgrade
   newState.money = newState.money - cost;
   
-  // Apply the upgrade effect by calling the function 
-  // (this modifies the newState directly inside the effect function)
+  // Apply the upgrade effect by calling the function
+  // (this will modify properties on the newState object)
   effect();
+  
+  // Add the upgrade ID to unlockedUpgrades if provided
+  if (upgradeId && !newState.unlockedUpgrades.includes(upgradeId)) {
+    newState.unlockedUpgrades.push(upgradeId);
+  }
   
   // Update the state with all changes
   setGameState(newState);

@@ -23,7 +23,7 @@ export interface GameContextType {
   gameState: GameState;
   feedBunny: () => void;
   sellBunnies: (amount: number) => void;
-  buyUpgrade: (cost: number, effect: () => void) => boolean;
+  buyUpgrade: (cost: number, effect: () => void, upgradeId?: string) => boolean;
   formatNumber: (num: number) => string;
   getProgressPercentage: () => number;
   marketPriceMultiplier: () => number;
