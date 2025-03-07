@@ -17,9 +17,9 @@ const GameStats: React.FC = () => {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Calculate goal percentage - changed to 10 bunnies instead of 100
+  // Calculate goal percentage - changed to 10,000 bunnies instead of 10
   const calculateGoalPercentage = () => {
-    return Math.min(100, (gameState.bunnies / 10) * 100);
+    return Math.min(100, (gameState.bunnies / 10000) * 100);
   };
 
   return (
@@ -85,9 +85,9 @@ const GameStats: React.FC = () => {
             indicatorClassName="bg-gray-800"
           />
           <p className="text-xs text-gray-500 mt-1">
-            {gameState.bunnies >= 10 
+            {gameState.bunnies >= 10000 
               ? 'You did it! You\'ve won the game!' 
-              : `${10 - gameState.bunnies} more bunnies to win the game`}
+              : `${formatNumber(10000 - gameState.bunnies)} more bunnies to win the game`}
           </p>
         </div>
       </div>
