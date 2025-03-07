@@ -102,14 +102,14 @@ const LeaderboardDrawer: React.FC = () => {
 
 // Helper component for the leaderboard table
 const LeaderboardTable: React.FC<{ 
-  entries: Array<{ name: string; time: number; timestamp: number }>; 
+  entries: Array<{ name: string; time: number; timestamp: number; id?: string }>; 
   formatTime: (seconds: number) => string
 }> = ({ entries, formatTime }) => {
   return (
     <div className="space-y-2">
       {entries.map((entry, index) => (
         <div 
-          key={entry.id || `${entry.name}-${entry.timestamp}`} 
+          key={`entry-${index}-${entry.timestamp}`} 
           className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100"
         >
           <div className="flex items-center gap-3">
