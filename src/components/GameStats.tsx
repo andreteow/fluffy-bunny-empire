@@ -28,7 +28,7 @@ const GameStats: React.FC = () => {
 
   // Calculate goal percentage with more precision for large numbers
   const calculateGoalPercentage = () => {
-    const percentage = (gameState.bunnies / 100000000000) * 100;
+    const percentage = (gameState.bunnies / 1000) * 100;
     if (percentage < 0.0001) {
       return percentage.toExponential(4);
     } else if (percentage < 0.01) {
@@ -96,9 +96,9 @@ const GameStats: React.FC = () => {
       </div>
       
       <div className="mt-4 text-xs text-center text-gray-500">
-        <p>Goal: 100 billion bunnies to take over the world!</p>
+        <p>Goal: 1000 bunnies to take over the world!</p>
         <p className="text-xs mt-1">
-          {gameState.bunnies >= 100000000000 
+          {gameState.bunnies >= 1000 
             ? '🎉 You did it! The world is covered in bunnies!' 
             : `${calculateGoalPercentage()}% complete`}
         </p>

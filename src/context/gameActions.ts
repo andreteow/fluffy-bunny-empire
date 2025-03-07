@@ -157,7 +157,12 @@ export const resetGame = (
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,
   toast: ToastFunction
 ) => {
-  setGameState(initialState);
+  // Create a fresh copy of the initial state to ensure complete reset
+  const freshInitialState = { ...initialState };
+  
+  // Reset to initial state - this ensures all upgrades, effects, and counters are reset
+  setGameState(freshInitialState);
+  
   toast({
     title: "Game Reset",
     description: "Your game has been reset to the beginning.",

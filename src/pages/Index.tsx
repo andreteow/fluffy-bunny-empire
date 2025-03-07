@@ -7,6 +7,7 @@ import BunnyUpgrades from '@/components/BunnyUpgrades';
 import GameStats from '@/components/GameStats';
 import AboutPopup from '@/components/AboutPopup';
 import ResetButton from '@/components/ResetButton';
+import VictoryDialog from '@/components/VictoryDialog';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { BarChart2 } from 'lucide-react';
 
@@ -65,6 +66,36 @@ const Index = () => {
         <footer className="text-center text-gray-500 text-sm mt-12">
           <p>Bunny Clicker Game - Click, Feed, Multiply!</p>
         </footer>
+
+        {/* Victory Dialog */}
+        <VictoryDialog />
+
+        {/* Add confetti animation styles */}
+        <style jsx global>{`
+          @keyframes fall {
+            0% {
+              transform: translateY(0) rotate(0deg);
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(100vh) rotate(360deg);
+              opacity: 0;
+            }
+          }
+          
+          @keyframes spin {
+            from {
+              transform: rotate(0deg);
+            }
+            to {
+              transform: rotate(360deg);
+            }
+          }
+          
+          .animate-fall {
+            animation: fall 3s linear forwards;
+          }
+        `}</style>
       </div>
     </GameProvider>
   );
