@@ -16,31 +16,36 @@ const BunnyClicker: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-2xl font-bold mb-2">
+      <h2 className="text-3xl font-bold mb-4 text-clay-pink-dark">
         Bunnies: {formatNumber(gameState.bunnies)}
       </h2>
       
       <Card 
-        className="p-6 bg-bunny-pink bg-opacity-40 border-4 border-bunny-pink rounded-3xl shadow-lg mb-4 flex flex-col items-center cursor-pointer" 
+        className="p-8 bg-gradient-to-br from-bunny-pink to-white border-0 rounded-2xl shadow-lg mb-6 flex flex-col items-center cursor-pointer w-full max-w-md transform transition-all duration-200 hover:shadow-xl" 
         onClick={handleClick}
       >
         <div className={`bunny-clicker ${isHopping ? 'animate-hop' : ''}`}>
-          <div className="text-8xl mb-2">🐰</div>
+          <div className="text-9xl mb-3">🐰</div>
         </div>
-        <p className="text-lg font-semibold">Click to feed!</p>
+        <p className="text-xl font-semibold text-clay">Click to feed!</p>
         {gameState.feedsPerClick > 1 && (
-          <p className="text-sm text-muted-foreground">+{gameState.feedsPerClick} feeds per click</p>
+          <p className="text-sm text-clay-pink-dark mt-1">+{gameState.feedsPerClick} feeds per click</p>
         )}
       </Card>
       
       <div className="w-full max-w-md">
-        <div className="flex justify-between text-sm mb-1">
-          <span>Progress to next multiplication:</span>
-          <span>
+        <div className="flex justify-between text-sm mb-2">
+          <span className="font-medium text-clay">Progress to next multiplication:</span>
+          <span className="font-bold">
             {gameState.food} / {gameState.feedingsForNextMultiplication}
           </span>
         </div>
-        <Progress value={getProgressPercentage()} className="h-3 bg-bunny-gray" />
+        <Progress 
+          value={getProgressPercentage()} 
+          className="h-4 bg-gray-100 rounded-full" 
+          // Clay-inspired progress indicator
+          indicatorClassName="bg-clay-green transition-all duration-300"
+        />
       </div>
     </div>
   );

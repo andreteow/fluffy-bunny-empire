@@ -63,17 +63,46 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
+				// Clay-inspired colors
+				clay: {
+					DEFAULT: '#000000', // black
+					background: '#FFFFFF', // white background
+					green: {
+						light: '#8BC34A', // light green
+						DEFAULT: '#4CAF50', // medium green
+						dark: '#2E7D32', // dark green
+					},
+					pink: {
+						light: '#FFB6C1', // light pink
+						DEFAULT: '#FF80AB', // medium pink
+						dark: '#C2185B', // dark pink
+					},
+					blue: {
+						light: '#81D4FA', // light blue
+						DEFAULT: '#29B6F6', // medium blue
+						dark: '#0288D1', // dark blue
+					},
+					yellow: {
+						light: '#FFF59D', // light yellow
+						DEFAULT: '#FFEE58', // medium yellow
+						dark: '#FBC02D', // dark yellow
+					},
+					coral: '#FF7F7F', // coral
+					teal: '#4DB6AC', // teal
+					lavender: '#B39DDB', // lavender
+					orange: '#FFB74D', // orange
+				},
 				// Custom bunny game colors
 				bunny: {
-					DEFAULT: '#9b87f5', // primary purple
-					light: '#E5DEFF', // soft purple
-					dark: '#6E59A5', // darker purple
-					pink: '#FFDEE2', // soft pink
-					peach: '#FDE1D3', // soft peach
-					yellow: '#FEF7CD', // soft yellow
-					green: '#F2FCE2', // soft green
-					blue: '#D3E4FD', // soft blue
-					gray: '#F1F0FB', // soft gray
+					DEFAULT: '#FF80AB', // primary pink (from Clay)
+					light: '#F8F9FA', // soft background
+					dark: '#C2185B', // darker pink
+					pink: '#FFB6C1', // soft pink
+					peach: '#FFCCBC', // soft peach
+					yellow: '#FFF59D', // soft yellow (from Clay)
+					green: '#A5D6A7', // soft green
+					blue: '#81D4FA', // soft blue (from Clay)
+					gray: '#ECEFF1', // soft gray
 				}
 			},
 			borderRadius: {
@@ -112,6 +141,12 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'hop': 'hop 0.6s ease-in-out',
 				'pulse-soft': 'pulse-soft 2s infinite'
+			},
+			backgroundImage: {
+				'clay-gradient': 'linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%)', // Green gradient
+				'clay-pink-gradient': 'linear-gradient(135deg, #FF80AB 0%, #FFB6C1 100%)', // Pink gradient
+				'clay-blue-gradient': 'linear-gradient(135deg, #29B6F6 0%, #81D4FA 100%)', // Blue gradient
+				'clay-yellow-gradient': 'linear-gradient(135deg, #FBC02D 0%, #FFF59D 100%)', // Yellow gradient
 			}
 		}
 	},

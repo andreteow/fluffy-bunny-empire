@@ -5,35 +5,35 @@
 
 @layer base {
   :root {
-    --background: 255 255% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 0%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 0%;
 
-    --primary: 262 77% 75%;
-    --primary-foreground: 260 40% 98%;
+    --primary: 340 82% 75%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 260 35% 54%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 340 80% 42%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 250 100% 94%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 340 100% 94%;
+    --accent-foreground: 340 80% 42%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 262 77% 75%;
+    --ring: 340 82% 75%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -91,8 +91,17 @@
 
   body {
     @apply bg-bunny-light text-foreground;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Inter', sans-serif;
   }
+}
+
+/* Clay-inspired styles */
+.clay-btn {
+  @apply rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg;
+}
+
+.clay-card {
+  @apply rounded-xl border-0 shadow-md overflow-hidden;
 }
 
 /* Custom styles for bunny game */
@@ -112,4 +121,61 @@
 
 .progress-animation {
   animation: fillProgress linear forwards;
+}
+
+/* Wavy background elements for Clay-like design */
+.wavy-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.wavy-bg::before {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: #FF80AB;
+  border-radius: 100% 100% 0 0;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.wavy-bg::after {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: 0;
+  width: 100%;
+  height: 150px;
+  background: #4CAF50;
+  border-radius: 0 0 100% 100%;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+/* Fall animation for confetti */
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-fall {
+  animation: fall 3s linear forwards;
 }

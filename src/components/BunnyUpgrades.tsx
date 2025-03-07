@@ -13,15 +13,35 @@ const BunnyUpgrades: React.FC = () => {
   const { availableUpgrades, upcomingUpgrades, getCategoryStats } = useUpgrades(activeTab);
 
   return (
-    <Card className="p-4 bg-bunny-green bg-opacity-40 border-2 border-bunny-green rounded-xl">
-      <h3 className="text-xl font-bold mb-4">Upgrades</h3>
+    <Card className="p-6 bg-gradient-to-br from-clay-green-light to-white border-0 rounded-2xl shadow-md">
+      <h3 className="text-2xl font-bold mb-5 text-clay-green-dark">Upgrades</h3>
       
       <Tabs defaultValue="efficiency" value={activeTab} onValueChange={(value) => setActiveTab(value as UpgradeCategory)}>
-        <TabsList className="grid grid-cols-4 mb-4">
-          <TabsTrigger value="efficiency">Feeding</TabsTrigger>
-          <TabsTrigger value="automation">Auto</TabsTrigger>
-          <TabsTrigger value="market">Market</TabsTrigger>
-          <TabsTrigger value="rarity">Rarity</TabsTrigger>
+        <TabsList className="grid grid-cols-4 mb-5 bg-clay-green bg-opacity-10">
+          <TabsTrigger 
+            value="efficiency" 
+            className="data-[state=active]:bg-clay-green data-[state=active]:text-white"
+          >
+            Feeding
+          </TabsTrigger>
+          <TabsTrigger 
+            value="automation" 
+            className="data-[state=active]:bg-clay-green data-[state=active]:text-white"
+          >
+            Auto
+          </TabsTrigger>
+          <TabsTrigger 
+            value="market" 
+            className="data-[state=active]:bg-clay-green data-[state=active]:text-white"
+          >
+            Market
+          </TabsTrigger>
+          <TabsTrigger 
+            value="rarity" 
+            className="data-[state=active]:bg-clay-green data-[state=active]:text-white"
+          >
+            Rarity
+          </TabsTrigger>
         </TabsList>
         
         {['efficiency', 'automation', 'market', 'rarity'].map((category) => (
@@ -37,7 +57,7 @@ const BunnyUpgrades: React.FC = () => {
       
       <div className="mt-4 text-sm">
         <div className="flex justify-between">
-          <span>{getCategoryStats()}</span>
+          <span className="font-medium text-clay-green">{getCategoryStats()}</span>
         </div>
       </div>
     </Card>

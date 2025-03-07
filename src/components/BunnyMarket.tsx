@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useGame } from '@/context/GameContext';
 import { Card } from '@/components/ui/card';
@@ -50,32 +51,32 @@ const BunnyMarket: React.FC = () => {
 
   const getMarketIcon = () => {
     switch (gameState.marketDemand) {
-      case 'high': return <TrendingUp className="h-5 w-5 text-green-500" />;
-      case 'low': return <TrendingDown className="h-5 w-5 text-red-500" />;
-      default: return <CircleDollarSign className="h-5 w-5 text-yellow-500" />;
+      case 'high': return <TrendingUp className="h-5 w-5 text-clay-green" />;
+      case 'low': return <TrendingDown className="h-5 w-5 text-clay-coral" />;
+      default: return <CircleDollarSign className="h-5 w-5 text-clay-yellow" />;
     }
   };
 
   const getMarketStatusColor = () => {
     switch (gameState.marketDemand) {
-      case 'high': return 'text-green-500';
-      case 'low': return 'text-red-500';
-      default: return 'text-yellow-500';
+      case 'high': return 'text-clay-green';
+      case 'low': return 'text-clay-coral';
+      default: return 'text-clay-yellow';
     }
   };
 
   const canSell = gameState.bunnies > 1 && sellAmount > 0;
 
   return (
-    <Card className="p-4 bg-bunny-blue bg-opacity-40 border-2 border-bunny-blue rounded-xl">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-bold">Bunny Market</h3>
-        <div className="flex items-center gap-2">
+    <Card className="p-6 bg-gradient-to-br from-clay-blue-light to-white border-0 rounded-2xl shadow-md">
+      <div className="flex justify-between items-center mb-5">
+        <h3 className="text-2xl font-bold text-clay-blue-dark">Bunny Market</h3>
+        <div className="flex items-center gap-2 px-3 py-1 bg-white rounded-full shadow-sm">
           <span className={`font-semibold ${getMarketStatusColor()}`}>
             {gameState.marketDemand.toUpperCase()} DEMAND
           </span>
           {getMarketIcon()}
-          <span className="text-sm">
+          <span className="text-sm font-medium">
             {gameState.marketTimer}s
           </span>
         </div>
@@ -83,25 +84,25 @@ const BunnyMarket: React.FC = () => {
       
       <div className="mb-4">
         <div className="flex justify-between text-sm mb-1">
-          <span>Current balance:</span>
-          <span className="font-semibold">${formatNumber(gameState.money)}</span>
+          <span className="font-medium">Current balance:</span>
+          <span className="font-bold text-clay">${formatNumber(gameState.money)}</span>
         </div>
         
         <div className="flex justify-between text-sm mb-3">
-          <span>Price multiplier:</span>
-          <span className={`font-semibold ${getMarketStatusColor()}`}>
+          <span className="font-medium">Price multiplier:</span>
+          <span className={`font-bold ${getMarketStatusColor()}`}>
             ×{marketPriceMultiplier()}
           </span>
         </div>
         
         {gameState.bunnies <= 1 ? (
-          <div className="p-3 mb-4 bg-amber-50 border border-amber-200 rounded-md text-sm text-amber-700">
+          <div className="p-4 mb-4 bg-clay-yellow-light border-l-4 border-clay-yellow rounded-r-md text-sm text-clay">
             You must keep at least 1 bunny at all times! Get more bunnies to sell.
           </div>
         ) : (
           <div className="flex gap-4 mb-4">
             <div className="flex-1">
-              <Label htmlFor="sellAmount">Amount to sell:</Label>
+              <Label htmlFor="sellAmount" className="font-medium mb-1.5">Amount to sell:</Label>
               <Input
                 id="sellAmount"
                 type="number"
@@ -109,12 +110,12 @@ const BunnyMarket: React.FC = () => {
                 max={gameState.bunnies - 1}
                 value={sellAmount}
                 onChange={handleSellAmountChange}
-                className="bg-white"
+                className="bg-white border-clay-blue-light focus:border-clay-blue focus:ring-clay-blue-light"
               />
             </div>
             <div className="flex-1">
-              <Label>Estimated earnings:</Label>
-              <div className="h-10 flex items-center font-semibold">
+              <Label className="font-medium mb-1.5">Estimated earnings:</Label>
+              <div className="h-10 flex items-center font-bold text-clay-blue">
                 ${formatNumber(estimateEarnings())}
               </div>
             </div>
@@ -123,7 +124,7 @@ const BunnyMarket: React.FC = () => {
         
         <Button 
           onClick={handleSell} 
-          className="w-full mb-2 bg-bunny hover:bg-bunny-dark"
+          className="w-full mb-3 bg-clay-blue hover:bg-clay-blue-dark clay-btn"
           disabled={!canSell}
         >
           Sell {sellAmount} {sellAmount === 1 ? 'Bunny' : 'Bunnies'}
@@ -134,7 +135,7 @@ const BunnyMarket: React.FC = () => {
             variant="outline" 
             onClick={() => handleQuickSell(10)}
             disabled={gameState.bunnies <= 1}
-            className="text-xs"
+            className="text-xs border-clay-blue-light text-clay-blue hover:bg-clay-blue-light hover:text-white"
           >
             Sell 10%
           </Button>
@@ -142,7 +143,7 @@ const BunnyMarket: React.FC = () => {
             variant="outline" 
             onClick={() => handleQuickSell(50)}
             disabled={gameState.bunnies <= 1}
-            className="text-xs"
+            className="text-xs border-clay-blue-light text-clay-blue hover:bg-clay-blue-light hover:text-white"
           >
             Sell 50%
           </Button>
@@ -150,7 +151,7 @@ const BunnyMarket: React.FC = () => {
             variant="outline" 
             onClick={() => handleQuickSell(100)}
             disabled={gameState.bunnies <= 1}
-            className="text-xs"
+            className="text-xs border-clay-blue-light text-clay-blue hover:bg-clay-blue-light hover:text-white"
           >
             Sell All*
           </Button>

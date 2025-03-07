@@ -39,69 +39,71 @@ const GameStats: React.FC = () => {
   };
 
   return (
-    <Card className="p-4 bg-bunny-yellow bg-opacity-40 border-2 border-bunny-yellow rounded-xl h-full">
-      <h3 className="text-xl font-bold mb-4">Stats</h3>
+    <Card className="p-6 bg-gradient-to-br from-clay-yellow-light to-white border-0 rounded-2xl shadow-md h-full">
+      <h3 className="text-2xl font-bold mb-5 text-clay-yellow-dark">Stats</h3>
       
-      <div className="space-y-2 text-sm">
-        <div className="flex justify-between">
-          <span>Total feedings:</span>
-          <span className="font-semibold">{formatNumber(gameState.totalFeedings)}</span>
+      <div className="space-y-3 text-sm">
+        <div className="flex justify-between p-2 bg-white rounded-lg shadow-sm">
+          <span className="font-medium text-clay">Total feedings:</span>
+          <span className="font-bold">{formatNumber(gameState.totalFeedings)}</span>
         </div>
         
-        <div className="flex justify-between">
-          <span>Bunnies:</span>
-          <span className="font-semibold">{formatNumber(gameState.bunnies)}</span>
+        <div className="flex justify-between p-2 bg-white rounded-lg shadow-sm">
+          <span className="font-medium text-clay">Bunnies:</span>
+          <span className="font-bold">{formatNumber(gameState.bunnies)}</span>
         </div>
         
-        <div className="flex justify-between">
-          <span>Next multiplication at:</span>
-          <span className="font-semibold">{formatNumber(gameState.feedingsForNextMultiplication)} feedings</span>
+        <div className="flex justify-between p-2 bg-white rounded-lg shadow-sm">
+          <span className="font-medium text-clay">Next multiplication at:</span>
+          <span className="font-bold">{formatNumber(gameState.feedingsForNextMultiplication)} feedings</span>
         </div>
         
-        <div className="flex justify-between">
-          <span>Current money:</span>
-          <span className="font-semibold">${formatNumber(gameState.money)}</span>
+        <div className="flex justify-between p-2 bg-white rounded-lg shadow-sm">
+          <span className="font-medium text-clay">Current money:</span>
+          <span className="font-bold text-clay-green">${formatNumber(gameState.money)}</span>
         </div>
         
-        <div className="flex justify-between">
-          <span>Feeds per click:</span>
-          <span className="font-semibold">{gameState.feedsPerClick}</span>
+        <div className="flex justify-between p-2 bg-white rounded-lg shadow-sm">
+          <span className="font-medium text-clay">Feeds per click:</span>
+          <span className="font-bold">{gameState.feedsPerClick}</span>
         </div>
         
-        <div className="flex justify-between">
-          <span>Auto-feed rate:</span>
-          <span className="font-semibold">{gameState.autoFeedRate}/sec</span>
+        <div className="flex justify-between p-2 bg-white rounded-lg shadow-sm">
+          <span className="font-medium text-clay">Auto-feed rate:</span>
+          <span className="font-bold">{gameState.autoFeedRate}/sec</span>
         </div>
         
-        <div className="flex justify-between items-center">
-          <span className="flex items-center gap-1">
-            <Clock className="h-4 w-4" /> Elapsed time:
+        <div className="flex justify-between items-center p-2 bg-white rounded-lg shadow-sm">
+          <span className="flex items-center gap-1 font-medium text-clay">
+            <Clock className="h-4 w-4 text-clay-blue" /> Elapsed time:
           </span>
-          <span className="font-semibold">{formatTime(elapsedTime)}</span>
+          <span className="font-bold">{formatTime(elapsedTime)}</span>
         </div>
         
-        <div className="flex justify-between items-center">
-          <span className="flex items-center gap-1">
-            <Zap className="h-4 w-4" /> High value chance:
+        <div className="flex justify-between items-center p-2 bg-white rounded-lg shadow-sm">
+          <span className="flex items-center gap-1 font-medium text-clay">
+            <Zap className="h-4 w-4 text-clay-pink" /> High value chance:
           </span>
-          <span className="font-semibold">{(gameState.highValueChance * 100).toFixed(0)}%</span>
+          <span className="font-bold">{(gameState.highValueChance * 100).toFixed(0)}%</span>
         </div>
         
-        <div className="flex justify-between items-center">
-          <span className="flex items-center gap-1">
-            <BarChart3 className="h-4 w-4" /> Mid value chance:
+        <div className="flex justify-between items-center p-2 bg-white rounded-lg shadow-sm">
+          <span className="flex items-center gap-1 font-medium text-clay">
+            <BarChart3 className="h-4 w-4 text-clay-lavender" /> Mid value chance:
           </span>
-          <span className="font-semibold">{(gameState.midValueChance * 100).toFixed(0)}%</span>
+          <span className="font-bold">{(gameState.midValueChance * 100).toFixed(0)}%</span>
         </div>
       </div>
       
-      <div className="mt-4 text-xs text-center text-gray-500">
-        <p>Goal: 100 bunnies to take over the world!</p>
-        <p className="text-xs mt-1">
-          {gameState.bunnies >= 100 
-            ? '🎉 You did it! The world is covered in bunnies!' 
-            : `${calculateGoalPercentage()}% complete`}
-        </p>
+      <div className="mt-6 text-center">
+        <div className="bg-white rounded-xl p-4 shadow-sm">
+          <p className="font-bold text-clay">Goal: 100 bunnies to take over the world!</p>
+          <p className="text-sm mt-2 font-medium">
+            {gameState.bunnies >= 100 
+              ? '🎉 You did it! The world is covered in bunnies!' 
+              : `${calculateGoalPercentage()}% complete`}
+          </p>
+        </div>
       </div>
     </Card>
   );

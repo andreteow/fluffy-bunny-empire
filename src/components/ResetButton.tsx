@@ -30,23 +30,28 @@ const ResetButton: React.FC = () => {
         <Button 
           variant="outline" 
           size="icon" 
-          className="rounded-full w-10 h-10 flex items-center justify-center" 
+          className="rounded-full w-10 h-10 flex items-center justify-center border-0 bg-white shadow-md hover:shadow-lg" 
           aria-label="Reset game"
         >
-          <RefreshCcw className="h-5 w-5" />
+          <RefreshCcw className="h-5 w-5 text-clay-green" />
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="border-0 rounded-xl shadow-lg bg-white">
         <AlertDialogHeader>
-          <AlertDialogTitle>Reset Game?</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogTitle className="text-2xl font-bold text-clay">Reset Game?</AlertDialogTitle>
+          <AlertDialogDescription className="text-base">
             This will reset all your progress, including your bunnies, money, and upgrades.
             This action cannot be undone!
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleReset}>Reset Game</AlertDialogAction>
+        <AlertDialogFooter className="pt-2">
+          <AlertDialogCancel className="border border-clay-blue-light text-clay-blue hover:bg-clay-blue-light hover:text-white">Cancel</AlertDialogCancel>
+          <AlertDialogAction 
+            onClick={handleReset}
+            className="bg-clay-pink hover:bg-clay-pink-dark"
+          >
+            Reset Game
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
