@@ -12,7 +12,6 @@ export const useUpgrades = (activeTab: UpgradeCategory) => {
   const categoryUpgrades = getUpgradesByCategory(activeTab);
   
   // Treat all upgrades as available, only filtering out ones that are already unlocked
-  // We're removing the isAvailable check to make all upgrades purchasable regardless of bunny count
   const availableUpgrades = categoryUpgrades.filter(upgrade => 
     !gameState.unlockedUpgrades.includes(upgrade.id)
   );
